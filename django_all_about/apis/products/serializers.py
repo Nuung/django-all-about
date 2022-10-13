@@ -1,12 +1,22 @@
 
+# django, drf lib
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator, UniqueTogetherValidator
-from django.utils.translation import gettext_lazy as _
 
-# from api.v2.product.models import PipeBaseMaterialGradePrice, PipeMaterialGradePrice, PipeSizeThicknessPrice
+# app lib
+from apis.products.models import ItemCategory, Items, SearchHistory
 
-# class PipeBaseMaterialGradePriceSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = PipeBaseMaterialGradePrice
-#         exclude = ("id", )
-#         read_only_fields = ("updated_at", )
+class ItemCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ItemCategory
+        exclude = ("id", )
+
+class ItemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Items
+        exclude = ("id", )
+
+class SearchHistorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SearchHistory
+        exclude = ("id", )

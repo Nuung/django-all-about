@@ -45,10 +45,6 @@ DEVELOP_LOGGING = {
             'handlers': ['file'],
             'level': 'INFO',
             'propagate': False,
-        },
-        "app_ready": {
-            "handlers" : ['file'], #['console','file'],
-            "level": 'INFO',
         }
     }
 }

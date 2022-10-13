@@ -1,5 +1,7 @@
 
+# django, drf lib
 from django.db import models
+from django.contrib.auth.models import User
 
 class ItemCategory(models.Model):
     """
@@ -8,7 +10,7 @@ class ItemCategory(models.Model):
     """
     category_name = models.CharField(max_length=4, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Items(models.Model):
@@ -17,7 +19,27 @@ class Items(models.Model):
     """
     category = models.ForeignKey(ItemCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, blank=False, null=False)
+    description = models.TextField(blank=False, null=False)
     quantity = models.PositiveSmallIntegerField() # 음수값 불가능
+    seller = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="seller"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class SearchHistory(models.Model):
+    """
+    - Item search history, 검색 이력을 위해 mongodb 활용해서 내역 저장 Model
+    """
+    search_query = models.CharField(max_length=200, blank=True, null=True)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=True, 
+        null=True
+    )
+    created_at = models.DateTimeField(auto_now_add=True)

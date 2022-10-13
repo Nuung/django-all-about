@@ -29,11 +29,13 @@
 - `python -m venv .venv` 가상환경은 직접 편한 방식으로 생성 
 - `pip install -r requirements.txt`
 - `python manage.py migrate`
+- `python manage.py migrate --database=orders` 다중 데이터베이스 세팅으로 꼭 해주셔야 합니다.
 - 디렉토리 만들기, `django_all_about >> logs` file logging을 사용하기 때문에 디렉토리 만들어줘야합니다.
 - `python manage.py runserver` 정상 작동 테스트 후 exit
 - 서버 러닝이 정상 작동 한다면, super user 생성하기, `python manage.py createsuperuser`
 - `python manage.py collectstatic` 로 static file 생성 까지 진행
-- `python manage.py runserver` 를 통해 localhost:8000/admin 으로 접속
+- `python manage.py runserver` 를 통해 http://localhost/admin 으로 접속 
+  - 아니 8000으로 바인딩했으면서 왜 80으로 가냐? docker - nginx conf 참조, 리버스 프록시 세팅 모두 되어있음
 
 ### detail config
 
@@ -63,13 +65,33 @@ db.runCommand('usersInfo')
 2. app 추가를 하려면
 - 우선 apis 하위에 추가하려는 app의 디렉토리 (폴더)를 하나 추가한다.
 - 그리고 `python manage.py startapp products ./apis/products` 커멘드로 세팅한다
+- `urls.py` 와 `serializers.py` 추가로 세팅해서 사용하면 된다. 
+- `apps.py` 세팅값도 살짝 바꾸는게 좋은데, 이미 있는 것을 참고하길 바란다.
 
+3. 분리된 config > setting 에서 `manage.py shell` 에 접근할 때에는 `python manage.py shell --settings=config.settings.local` 와 같이 option을 추가해 줘야 한다. 
+
+4. 기본적인 url 들은 아래와 같다
+- `localhost` : main, index but not used
+- `localhost/admin` ; django의 핵심, admin 페이지 이다.
+- `localhost/swagger/` : 스웨거는 꼭 들어가 보길, 말그대로 swagger로 API 정리되어있는 문서다. drf와 drf_yasg 의 합작이다.
+- `localhost/api/...` : API endpoint 의 pre-fix로 "api" 가 붙는다. 
+
+5. django 파일 빈번하게 바꾸면서 테스트할 꺼라면, django를 도커라이징에서 제외하고 사용하는 것을 추천 (기본 세팅)
 
 ## Case
 
 ### 1. 전체 프로젝트 도커라이징 및 다중 데이터베이스 활용하기
+- `config > dbrouter.py` 부분과 `config > settings > local.py` 에서 Database setting 부분을 참조해 보자
+- model에 `app_lable` 을 붙이는 것과 migrate 진행시 database option을 주는 것
+
 ### 2. N:M 을 다루기
+- OrderRequest 에서 출발을 해서, 해당 유저가 구매요청에 해당하는 모든 item을 찾아보자
+
 ### 3. admin을 admin 답게 커스텀하기
+- 
+
 ### 4. Django middleware 만들기
+- `HttpRequest -> HttpResponse` 이 처리 구간에서 time library의 `process_time_ns` 함수를 활용해서 응답 헤더에 추가해 보자.
+
 ### 5. DRF response, request 커스텀 자유롭게 하기
 ### 6. Model field index와 퍼포먼스 체커

@@ -52,6 +52,10 @@ INSTALLED_APPS = [
     'django_filters',               # queryset filter, django-filter
     'debug_toolbar',                # debug (side tool bar), django-debug-toolbar
 
+    # 추가한 API, APPs
+    'apis.products',
+    'apis.orders',
+
     # DRF
     'rest_framework',               # djangorestframework
 
@@ -69,7 +73,10 @@ MIDDLEWARE = [
     
     # other adds / extentions
     'debug_toolbar.middleware.DebugToolbarMiddleware',  # debug tool bar
-    'corsheaders.middleware.CorsMiddleware',    
+    'corsheaders.middleware.CorsMiddleware',
+
+    # custom middleware
+    'config.custom_middleware.ViewProcessTimeMiddleware',
 ]
 
 # route되는 url에 대한 설정파일
@@ -132,6 +139,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_PAGE_SIZE = 10
 
 # Debug toolbar config
 DEBUG_TOOLBAR_CONFIG = {
@@ -156,13 +164,13 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        'rest_framework.permissions.AllowAny'
+    ],
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework_simplejwt.authentication.JWTAuthentication',
     # ),
-    # 'DEFAULT_PAGINATION_CLASS': 'config.pagination.DefaultPagination', # 커스텀 페이지네이션 사용 선언
-    # 'PAGE_SIZE': 8,
+    'DEFAULT_PAGINATION_CLASS': 'config.pagination.DefaultPagination', # 커스텀 페이지네이션 사용 선언
+    'PAGE_SIZE': DEFAULT_PAGE_SIZE,
     # 'EXCEPTION_HANDLER': 'config.exceptions.base.custom_exception_handler',
 }
 
@@ -176,7 +184,7 @@ REST_FRAMEWORK = {
 
 ## db라우터
 DATABASE_ROUTERS = [
-    'django_all_about.config.dbrouter.MultiDBRouter',
+    'config.dbrouter.MultiDBRouter',
 ]
 
 DATABASES = {
@@ -189,30 +197,32 @@ DATABASES = {
         'PORT': '5432'
     },
 
-    # mongo driver는 내장되어 있지 않아서, 
-    'daa-mongo': {
-        'ENGINE': 'djongo',
-        'ENFORCE_SCHEMA': True,
-        'LOGGING': {
-            'version': 1,
-            'loggers': {
-                'djongo': {
-                    'level': 'DEBUG',
-                    'propogate': False,                        
-                }
-            },
-         },
-        'NAME': 'daa-mongo-db',
-        'CLIENT': {
-            'host': '127.0.0.1',
-            'port': 29019,
-            # 'username': '몽고DB 사용자 계정을 넣어주세요',
-            # 'password': "몽고DB 사용자 비밀번호 넣어주세요",
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1'
-        }
-    }
+    'orders': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'daa-postgres-order-db',
+        'USER': 'nuung',
+        'PASSWORD': 'daa123!',
+        'HOST': '127.0.0.1',
+        'PORT': '5432'        
+    },
 
+    # # mongo driver는 내장되어 있지 않아서, 
+    # 'daa-mongo': {
+    #     'ENGINE': 'djongo',
+    #     'ENFORCE_SCHEMA': True,
+    #     'NAME': 'daa-mongo-db',
+    #     'CLIENT': {
+    #         'host': '127.0.0.1',
+    #         'port': 29019,
+    #         'username': 'nuung',
+    #         'password': 'daa123!',
+    #         'authSource': 'admin',
+    #         'authMechanism': 'SCRAM-SHA-1'
+    #     },
+    #     'TEST': {
+    #         'MIRROR': 'default',
+    #     },
+    # }
 }
 
 # ==================================================================== #
