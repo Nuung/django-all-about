@@ -1,0 +1,73 @@
+services:
+
+  # daa 는 django-all-about 의 약자 
+
+  daa-nginx:
+    image: nginx
+    hostname: daa-nginx
+    container_name: daa-nginx
+    volumes:
+      - ../nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ../nginx/conf.d:/etc/nginx/conf.d
+      - ../django_all_about/static:/etc/nginx/static
+      - ../django_all_about/media:/etc/nginx/media
+      - ../nginx/logs:/var/log/nginx
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_PORT=80
+    networks:
+      - django-all-about-app
+
+  daa-mongodb:
+    image: mongo
+    hostname: daa-mongodb
+    container_name: daa-mongodb
+    ports:
+      - "29019:29019"
+    volumes:
+      - ../mongodb/data:/data/db
+      - ../mongodb/cnf:/etc/mongo
+      - ../mongodb/logs:/var/log/mongodb
+    entrypoint: ["mongod", "-f", "/etc/mongo/mongod.conf"]
+    environment:
+      TZ: Asia/Seoul
+    networks:
+      - django-all-about-app
+
+  daa-postgres:
+    image: postgres:latest
+    hostname: daa-postgres
+    container_name: daa-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "nuung"
+      POSTGRES_PASSWORD: "daa123!"
+      POSTGRES_DB: daa-postgres-db
+    volumes:
+      - ../postgresql/data/:/var/lib/postgresql/data
+    networks:
+      - django-all-about-app
+
+  daa-redis:
+    image: redis:alpine
+    hostname: daa-redis
+    container_name: daa-redis    
+    labels:
+      - "name=redis"
+      - "mode=standalone"
+    ports:
+      - 6379:6379
+    volumes:
+      - ../redis/data:/data
+      - ../redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server --port 6379
+    networks:
+      - django-all-about-app
+
+
+networks:
+  django-all-about-app:
+    driver: bridge
