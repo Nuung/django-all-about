@@ -76,7 +76,9 @@ db.runCommand('usersInfo')
 - `localhost/swagger/` : 스웨거는 꼭 들어가 보길, 말그대로 swagger로 API 정리되어있는 문서다. drf와 drf_yasg 의 합작이다.
 - `localhost/api/...` : API endpoint 의 pre-fix로 "api" 가 붙는다. 
 
-5. django 파일 빈번하게 바꾸면서 테스트할 꺼라면, django를 도커라이징에서 제외하고 사용하는 것을 추천 (기본 세팅)
+5. `python manage.py shell --setting=config.settings.local < ./apis/products/item_dump_generator.py` 커멘드를 통해 dump item generating을 할 수 있다.
+
+6. django 파일 빈번하게 바꾸면서 테스트할 꺼라면, django를 도커라이징에서 제외하고 사용하는 것을 추천 (기본 세팅)
 
 ## Case
 

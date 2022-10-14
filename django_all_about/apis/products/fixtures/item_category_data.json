@@ -1,0 +1,119 @@
+[
+    {
+        "model": "products.ItemCategory",
+        "pk": 1,
+        "fields": {
+            "category_name": "의류",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 2,
+        "fields": {
+            "category_name": "식품",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 3,
+        "fields": {
+            "category_name": "생필품",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 4,
+        "fields": {
+            "category_name": "귀금속",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 5,
+        "fields": {
+            "category_name": "신발",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 6,
+        "fields": {
+            "category_name": "문구류",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },    
+    {
+        "model": "products.ItemCategory",
+        "pk": 7,
+        "fields": {
+            "category_name": "화장품",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 8,
+        "fields": {
+            "category_name": "전자기기",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 9,
+        "fields": {
+            "category_name": "완구류",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 10,
+        "fields": {
+            "category_name": "가전제품",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 11,
+        "fields": {
+            "category_name": "침구류",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 12,
+        "fields": {
+            "category_name": "청소용품",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    },
+    {
+        "model": "products.ItemCategory",
+        "pk": 13,
+        "fields": {
+            "category_name": "기타",
+            "created_at": "2022-10-14 14:50:00",
+            "updated_at": "2022-10-14 14:50:00"
+        }
+    }
+]
