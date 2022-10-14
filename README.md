@@ -6,9 +6,11 @@
 > complex - boilerplate 
 
 - 우선 config, settings 값 등 환경 변수로 다뤄야 할 것들을 철저하게 단순 **테스트를 위해 파일에 같이 저장되어 있는 점 유의**
-- DB 관련도 DBMS와 소통할 때 **no-auth 에 localhost 인 점도 꼭 유의**
-- Django 에서 User와 Auth(Permission) 에 대한 부분은 철저하게 core만 사용함. 커스텀 없음
-- exception에 대해서도 커스텀 없음.
+- DB 관련도 DBMS와 소통할 때 **auth, localhost 인 점도 꼭 유의** , mongodb 는 auth가 optional
+- User는 refresh 없는 1년 유효 jwt token (django simplejwt), 인가는 drf 기본 Authorization만 사용
+  - User 대충하려다가 조금 token 세팅 빡세게 해버렸다..
+- admin (super user)는 특별한 custom 없이 진행
+- exception은 커스텀 없이 진행
 
 ## Infra & Requirements
 
@@ -57,11 +59,12 @@ db.runCommand('usersInfo')
 ```
 - 이후 `settings > local.py` 의 DB 값 에서 다음 값을 바꿔주면 된다.
 ```python
-            # 'username': '몽고DB 사용자 계정을 넣어주세요',
-            # 'password': "몽고DB 사용자 비밀번호 넣어주세요",
-            ...
-            'username': 'nuung',
-            'password': 'daa123!',
+  ...
+  # 'username': '몽고DB 사용자 계정을 넣어주세요',
+  # 'password': "몽고DB 사용자 비밀번호 넣어주세요",
+  'username': 'nuung',
+  'password': 'daa123!',
+  ...
 ```
 
 2. app 추가를 하려면
@@ -89,15 +92,16 @@ db.runCommand('usersInfo')
 - model에 `app_lable` 을 붙이는 것과 migrate 진행시 database option을 주는 것
 
 ### 2. 모든 api는 unit test와 coverage와 함께
+- model moking 하기, 특히 user model 과 같은 경우
 
 ### 3. N:M 을 다루기
 - OrderRequest 에서 출발을 해서, 해당 유저가 구매요청(OrderRequest)에 해당하는 모든 item과 seller를 찾아보자
 - `OrderRequest 1<-N OrderList N->1 item N->1 seller` 
 
 ### 4. admin을 admin 답게 커스텀하기
+- 기존에 있는 admin을 좀 더 admin이 활용할 수 있게 custom 하기
 - createsuperuser 로 만들어지는 superuser 회원가입 template 만들기
 - mongodb에 있는 dump data를 보는 template 만들기
-- 기존에 있는 admin을 좀 더 admin이 활용할 수 있게 custom 하기
 
 ### 5. Django middleware 만들기
 - `HttpRequest -> HttpResponse` 이 처리 구간에서 time library의 `process_time_ns` 함수를 활용해서 응답 헤더에 추가해 보자.
