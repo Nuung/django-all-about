@@ -1,6 +1,7 @@
 
 # All About Django (almost)
 
+> [블로그 글](https://velog.io/@qlgks1/series/Django-Basic-to-Advanced) 과 같이 본다면 더 이해하기 쉽다.
 > Django 로 가능한 다양한 형태의 실습, 테스트 케이스 
 > complex - boilerplate 
 
@@ -35,7 +36,8 @@
 - 서버 러닝이 정상 작동 한다면, super user 생성하기, `python manage.py createsuperuser`
 - `python manage.py collectstatic` 로 static file 생성 까지 진행
 - `python manage.py runserver` 를 통해 http://localhost/admin 으로 접속 
-  - 아니 8000으로 바인딩했으면서 왜 80으로 가냐? docker - nginx conf 참조, 리버스 프록시 세팅 모두 되어있음
+  - 8000으로 바인딩했으면서 왜 80으로 가냐? docker - nginx conf 참조, 리버스 프록시 세팅 모두 되어있음
+- 이후 업데이트 시 `scripts > server-run.sh` 파일을 source 명령어로 러닝하면 된다. (데이터 세팅 때문에 최초 1회는 꼭 필요하다)
 
 ### detail config
 
@@ -86,14 +88,27 @@ db.runCommand('usersInfo')
 - `config > dbrouter.py` 부분과 `config > settings > local.py` 에서 Database setting 부분을 참조해 보자
 - model에 `app_lable` 을 붙이는 것과 migrate 진행시 database option을 주는 것
 
-### 2. N:M 을 다루기
-- OrderRequest 에서 출발을 해서, 해당 유저가 구매요청에 해당하는 모든 item을 찾아보자
+### 2. 모든 api는 unit test와 coverage와 함께
 
-### 3. admin을 admin 답게 커스텀하기
-- 
+### 3. N:M 을 다루기
+- OrderRequest 에서 출발을 해서, 해당 유저가 구매요청(OrderRequest)에 해당하는 모든 item과 seller를 찾아보자
+- `OrderRequest 1<-N OrderList N->1 item N->1 seller` 
 
-### 4. Django middleware 만들기
+### 4. admin을 admin 답게 커스텀하기
+- createsuperuser 로 만들어지는 superuser 회원가입 template 만들기
+- mongodb에 있는 dump data를 보는 template 만들기
+- 기존에 있는 admin을 좀 더 admin이 활용할 수 있게 custom 하기
+
+### 5. Django middleware 만들기
 - `HttpRequest -> HttpResponse` 이 처리 구간에서 time library의 `process_time_ns` 함수를 활용해서 응답 헤더에 추가해 보자.
+- `config > custom_middleware.py` 를 확인해 보자.
 
-### 5. DRF response, request 커스텀 자유롭게 하기
-### 6. Model field index와 퍼포먼스 체커
+### 6. DRF response, request 커스텀 자유롭게 하기
+-
+
+### 7. Model field index와 퍼포먼스 체커
+- 최적화로 들어가는 Django query
+- API 스트레스 체크 및 최적화, 캐싱처리하기
+  - celery로 실시간 검색어 순위를 비동기적으로 계속해서 변경 및 저장
+  - 그 순위 5순위까지 검색 결과값 item search result json를 redis에 캐싱처리하기 
+  - 계속되는 최적화 및 캐싱처리로 체크
