@@ -1,6 +1,28 @@
+version: '3'
 services:
 
-  # daa 는 django-all-about 의 약자 
+  # ==========================================================================
+  # Django Main Image - image making first
+  # ==========================================================================
+
+  daa-django: &dda-django
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: dda-django
+    hostname: daa-django
+    container_name: daa-django
+    volumes:
+      - ../django_all_about:/app:z
+    env_file:
+      - ./env
+    ports:
+      - "8000:8000"      
+    command: /scripts/start-django.sh
+
+  # ==========================================================================
+  # Application (as S/W, as L7) WebServer - Nignx
+  # ==========================================================================
 
   daa-nginx:
     image: nginx
@@ -19,6 +41,10 @@ services:
     networks:
       - django-all-about-app
 
+  # ==========================================================================
+  # Sub Database nosql - mongodb
+  # ==========================================================================
+
   daa-mongodb:
     image: mongo
     hostname: daa-mongodb
@@ -34,6 +60,10 @@ services:
       TZ: Asia/Seoul
     networks:
       - django-all-about-app
+
+  # ==========================================================================
+  # Main Database - postgresql
+  # ==========================================================================
 
   daa-postgres:
     image: postgres:latest
@@ -51,6 +81,10 @@ services:
     networks:
       - django-all-about-app
 
+  # ==========================================================================
+  # Main in-memory DB by cache and message queue
+  # ==========================================================================
+
   daa-redis:
     image: redis:alpine
     hostname: daa-redis
@@ -67,6 +101,40 @@ services:
     networks:
       - django-all-about-app
 
+  # ==========================================================================
+  # Celery, async worker - celery & celery beat celery monitor flower
+  # ==========================================================================
+  
+  dda-celeryworker:
+    <<: *dda-django
+    container_name: dda-celeryworker
+    depends_on:
+      - daa-redis
+      - daa-postgres
+    env_file:
+      - ./env
+    ports: []
+    command: /scripts/start-celeryworker.sh
+
+  dda-celerybeat:
+    <<: *dda-django
+    container_name: dda-celerybeat
+    depends_on:
+      - daa-redis
+      - daa-postgres
+    env_file:
+      - ./env
+    ports: []
+    command: /scripts/start-celerybeat.sh
+
+  dda-flower:
+    <<: *dda-django
+    container_name: dda-celeryflower
+    ports:
+      - "5555:5555"
+    depends_on:
+      - dda-celeryworker
+    command: /scripts/start-flower.sh
 
 networks:
   django-all-about-app:

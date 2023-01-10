@@ -1,0 +1,15 @@
+# docker app directory
+APP_DIR=/app/django_all_about
+
+# DB
+MAIN_DB_URL=postgres://daa-postgres:5432/daa-postgres-db?user=nuung&password=daa123!
+SUB_DB_URL=postgres://daa-postgres:5432/daa-postgres-order-db?user=nuung&password=daa123!
+
+# Celery
+CELERY_BROKER_URL=redis://daa-redis:6379/0
+CELERY_FLOWER_USER=flower
+CELERY_FLOWER_PASSWORD=flower
+SINGLE_BEAT_REDIS_SERVER=redis://daa-redis:6379/0
+
+# Cache
+REDIS_CACHE_URL=redis://daa-redis:6379/1

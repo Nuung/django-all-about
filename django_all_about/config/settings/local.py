@@ -14,9 +14,11 @@ from pathlib import Path
 from datetime import timedelta
 from config.logging.develop_logging import DEVELOP_LOGGING
 
+import environ
+
 # root 디렉토리를 "django_all_about" 으로 세팅해 둠
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
+env = environ.Env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -245,23 +247,8 @@ DATABASE_ROUTERS = [
 ]
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'daa-postgres-db',
-        'USER': 'nuung',
-        'PASSWORD': 'daa123!',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'
-    },
-
-    'orders': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'daa-postgres-order-db',
-        'USER': 'nuung',
-        'PASSWORD': 'daa123!',
-        'HOST': '127.0.0.1',
-        'PORT': '5432'        
-    },
+    'default': env.db("MAIN_DB_URL"),
+    'orders': env.db("SUB_DB_URL"),
 
     # # mongo driver는 내장되어 있지 않아서, 
     # 'daa-mongo': {
@@ -281,6 +268,8 @@ DATABASES = {
     #     },
     # }
 }
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
+DATABASES["orders"]["ATOMIC_REQUESTS"] = True
 
 # ==================================================================== #
 #                           CORS config                                #
@@ -336,9 +325,9 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 31457280   # 30mb, 얘 보다 큰 사이즈 경우
 #                     celery setting - config                          #
 # ==================================================================== #
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'      # redis를 MQ로 사용, 브로커서버 주소 
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL")      # redis를 MQ로 사용, 브로커서버 주소 
 BROKER_URL = CELERY_BROKER_URL
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'  #
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_ACCEPT_CONTENT = ['json']                    # celery가 message를 받을때 type
 CELERY_TASK_SERIALIZER = 'json'                     # 시리얼라이징(직렬화) 하는 타입
 CELERY_TIMEZONE = TIME_ZONE                         # TIME_ZONE = 'Asia/Seoul'    # 시간대 
@@ -364,7 +353,7 @@ DJANGO_CELERY_BEAT_TZ_AWARE = USE_TZ                # celery beat의 장고 시�
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
+        "LOCATION": os.environ.get("REDIS_CACHE_URL"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }

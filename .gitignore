@@ -6,6 +6,8 @@
 **/postgresql/data/**
 **/redis/data/**
 
+############################################################################
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,venv,python,django,redis
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,venv,python,django,redis
 

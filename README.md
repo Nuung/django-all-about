@@ -25,12 +25,23 @@
 
 ## Getting Start
 
-### project init
+### requirements
 
-- `git clone`
-- `docker` 디렉토리로 가서 `docker-start.sh` 실행 (ex - `source docker-start.sh`)
-- `python -m venv .venv` 가상환경은 직접 편한 방식으로 생성 
+1. git
+2. docker & docker compose
+
+### project init & start
+
+1. `git clone`
+2. `docker` 디렉토리로 가서 `docker-start.sh` 실행 (ex - `source docker-start.sh`)
+- 상대 경로 등의 설정으로 인해 **꼭 해당 디렉토리로 가서 shell을 실행**시키자.
+- `docker` 경로 내부에 ***러닝 스크립트 관련 scripts***, `requirements.txt` 가 있으니 필참
+- 초기 실행시 main image가 될 **dda-django** 이미지 빌드하고 러닝하는데 시간이 조금 걸릴 것 이다.
+
+3. 
+- `python -m venv .venv` 을 통해 직접 local 환경 구성을 해서 진행을 해도 괜찮고
 - `pip install -r requirements.txt`
+
 - `python manage.py migrate`
 - `python manage.py migrate --database=orders` 다중 데이터베이스 세팅으로 꼭 해주셔야 합니다.
 - 디렉토리 만들기, `django_all_about >> logs` file logging을 사용하기 때문에 디렉토리 만들어줘야합니다.
@@ -116,3 +127,12 @@ db.runCommand('usersInfo')
   - celery로 실시간 검색어 순위를 비동기적으로 계속해서 변경 및 저장
   - 그 순위 5순위까지 검색 결과값 item search result json를 redis에 캐싱처리하기 
   - 계속되는 최적화 및 캐싱처리로 체크
+
+
+### 8. redis + celery worker / celery beat & redis pub n sub 구조 활용하기
+- django -> redis -> celery beat / celery worker (if result) -> redis
+- django -> redis message queue (producing) <- queue consumer action
+  - 여기서 message queue는 redis를 대체하여 여타 다른 메시징 큐를 사용해도 무방하다.
+- 위 2가지를 활용하기, 자세한 내용은 아래 블로그 글들로 대신한다.
+- [Django Celery - async worker celery & redis (message que) basic](https://velog.io/@qlgks1/Django-Celery-MQ-message-que)
+- [Django Redis - caching, scheduling (task), pub/sub message que](https://velog.io/@qlgks1/Django-Redis-caching-scheduling-task-messaging-celery-async-worker)
