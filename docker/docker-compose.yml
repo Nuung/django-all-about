@@ -5,20 +5,23 @@ services:
   # Django Main Image - image making first
   # ==========================================================================
 
-  daa-django: &dda-django
+  daa-django: &daa-django
     build:
       context: .
-      dockerfile: ./Dockerfile
-    image: dda-django
+      dockerfile: ../django_all_about/Dockerfile
+    image: daa-django
     hostname: daa-django
     container_name: daa-django
     volumes:
       - ../django_all_about:/app:z
+      - ../django_all_about/scripts:/scripts
     env_file:
       - ./env
     ports:
       - "8000:8000"      
     command: /scripts/start-django.sh
+    networks:
+      - django-all-about-app    
 
   # ==========================================================================
   # Application (as S/W, as L7) WebServer - Nignx
@@ -74,7 +77,7 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_USER: "nuung"
-      POSTGRES_PASSWORD: "daa123!"
+      POSTGRES_PASSWORD: daa123!
       POSTGRES_DB: daa-postgres-db
     volumes:
       - ../postgresql/data/:/var/lib/postgresql/data
@@ -88,7 +91,7 @@ services:
   daa-redis:
     image: redis:alpine
     hostname: daa-redis
-    container_name: daa-redis    
+    container_name: daa-redis
     labels:
       - "name=redis"
       - "mode=standalone"
@@ -106,7 +109,7 @@ services:
   # ==========================================================================
   
   dda-celeryworker:
-    <<: *dda-django
+    <<: *daa-django
     container_name: dda-celeryworker
     depends_on:
       - daa-redis
@@ -115,9 +118,11 @@ services:
       - ./env
     ports: []
     command: /scripts/start-celeryworker.sh
+    networks:
+      - django-all-about-app
 
   dda-celerybeat:
-    <<: *dda-django
+    <<: *daa-django
     container_name: dda-celerybeat
     depends_on:
       - daa-redis
@@ -126,15 +131,19 @@ services:
       - ./env
     ports: []
     command: /scripts/start-celerybeat.sh
+    networks:
+      - django-all-about-app    
 
   dda-flower:
-    <<: *dda-django
+    <<: *daa-django
     container_name: dda-celeryflower
     ports:
       - "5555:5555"
     depends_on:
       - dda-celeryworker
     command: /scripts/start-flower.sh
+    networks:
+      - django-all-about-app    
 
 networks:
   django-all-about-app:

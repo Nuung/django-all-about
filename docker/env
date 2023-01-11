@@ -1,7 +1,13 @@
+DEBUG=True
+SECRET_KEY=django-insecure-kj=x&^_o!evihmg_(q7f=7f=ef-f+3i*oo01vw)%r+jrcd^+wf
 # docker app directory
 APP_DIR=/app/django_all_about
 
 # DB
+POSTGRES_HOST=daa-postgres
+POSTGRES_PORT=5432
+REDIS_HOST=daa-redis
+REDIS_PORT=6379
 MAIN_DB_URL=postgres://daa-postgres:5432/daa-postgres-db?user=nuung&password=daa123!
 SUB_DB_URL=postgres://daa-postgres:5432/daa-postgres-order-db?user=nuung&password=daa123!
 

@@ -12,28 +12,39 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
-from config.logging.develop_logging import DEVELOP_LOGGING
 
 import environ
+from celery.beat import crontab
+
+from config.logging.develop_logging import DEVELOP_LOGGING
 
 # root 디렉토리를 "django_all_about" 으로 세팅해 둠
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-env = environ.Env()
+
+# https://pypi.org/project/python-environ/
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, True)
+)
+
+# reading .env file
+environ.Env.read_env()
+
+DEBUG = env('DEBUG')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-kj=x&^_o!evihmg_(q7f=7f=ef-f+3i*oo01vw)%r+jrcd^+wf'
+SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 # 접근 허용 호스트 - all
 ALLOWED_HOSTS = ['*']
 
 # 로깅 세팅
 DEVELOP_LOGGING['handlers']['file']['filename'] = f"{BASE_DIR}/logs/django_all_about.log"
+print(DEVELOP_LOGGING['handlers']['file']['filename'])
 LOGGING = DEVELOP_LOGGING
 
 # ==================================================================== #
@@ -41,13 +52,16 @@ LOGGING = DEVELOP_LOGGING
 # ==================================================================== #
 
 INSTALLED_APPS = [
-    # default
+    # Default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Celery
+    "django_celery_beat",
 
     # other adds / extentions
     'corsheaders',                  # cors, django-cors-headers
@@ -339,6 +353,20 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers.DatabaseScheduler'
 # https://blog.fearcat.in/a?ID=01500-db2867b7-fdf9-4cb0-93fe-105cc446dbb2
 DJANGO_CELERY_BEAT_TZ_AWARE = USE_TZ                # celery beat의 장고 시간대 사용 여부
 # CELERY_BEAT_TIMEZONE = TIME_ZONE                    # celery beat TIME_ZONE = 'Asia/Seoul'
+
+
+# http://docs.celeryproject.org/en/latest/userguide/configuration.html#beat-scheduler
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+# https://docs.celeryproject.org/en/latest/userguide/configuration.html#std-setting-beat_schedule
+CELERY_BEAT_SCHEDULE = {
+    # "check-firmbank-crawler-availability": {
+    #     "task": "earlypay.apps.debug.tasks.check_firmbank_crawler_availability",
+    #     "schedule": crontab(minute=0, hour="*"),
+    #     "options": {
+    #         "expires": 2 * 60,  # 2 min
+    #     },
+    # }
+}
 
 
 # ==================================================================== #

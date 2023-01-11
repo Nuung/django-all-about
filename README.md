@@ -33,14 +33,25 @@
 ### project init & start
 
 1. `git clone`
-2. `docker` 디렉토리로 가서 `docker-start.sh` 실행 (ex - `source docker-start.sh`)
+2. 우선 `docker` 하위에 있는 `env` 파일을 `django_all_about/config/settings` 로 copy & paste 하자
+- 이름은 `.env` 로 copy 한다. 이유는 `python-environ` 모듈을 사용하기 때문이다.
+- 참고로 env 값 바뀌면 2개의 file을 update 해주자, `django_all_about` 
+- 그리고 `django_all_about` 하위 `.env`는 **버전관리 대상에서 빠진다.**
+- `cp ./docker/env ./django_all_about/config/settings/.env` (최상위 경로 기준 커멘드)
+3. `django_all_about` 가서 필수 base image가 될 django image를 만들자
+- `docker build -t dda-django -f ./Dockerfile .`
+- 해당 경로에 ***러닝 스크립트 관련 scripts***, `requirements.txt` 가 있으니 필참
+4. `docker` 디렉토리로 가서 `docker-start.sh` 실행 (ex - `source docker-start.sh`)
 - 상대 경로 등의 설정으로 인해 **꼭 해당 디렉토리로 가서 shell을 실행**시키자.
-- `docker` 경로 내부에 ***러닝 스크립트 관련 scripts***, `requirements.txt` 가 있으니 필참
-- 초기 실행시 main image가 될 **dda-django** 이미지 빌드하고 러닝하는데 시간이 조금 걸릴 것 이다.
+- 최초 실행시 celery-beat 등의 경우 migrate issue로 죽을 수 있으니 re-start를 다시 해주자
 
-3. 
-- `python -m venv .venv` 을 통해 직접 local 환경 구성을 해서 진행을 해도 괜찮고
-- `pip install -r requirements.txt`
+
+### Development
+
+1. 개발 환경 구성하기
+- `python -m venv .venv & pip install -r requirements.txt` 을 통해 직접 local 환경 구성을 해서 진행을 해도 괜찮다.
+- 추천하는 방법은 vs-code 등에서 "docker - django" (hostname: `daa-django`)에 붙어서 작업하는 것이다.
+- 
 
 - `python manage.py migrate`
 - `python manage.py migrate --database=orders` 다중 데이터베이스 세팅으로 꼭 해주셔야 합니다.
