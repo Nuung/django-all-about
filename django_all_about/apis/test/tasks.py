@@ -33,6 +33,10 @@ def get_retry_session() -> Session:
 
 @app.task
 def check_registration_number_from_hometax(registration_number=1208801280):
+
+    from time import sleep
+    sleep(1)
+
     s = get_retry_session()
 
     url = "https://teht.hometax.go.kr/wqAction.do"
@@ -60,6 +64,8 @@ def check_registration_number_from_hometax(registration_number=1208801280):
     is_closed = True
     if result == "등록되어 있는 사업자등록번호 입니다.":
         is_closed = False
+    
+    new_check_crn: CheckedCrn
     try:
         new_check_crn = CheckedCrn(
             registration_number=registration_number,
@@ -67,4 +73,5 @@ def check_registration_number_from_hometax(registration_number=1208801280):
         )
         new_check_crn.save()
     except Exception:
-        pass
+        return None
+    return new_check_crn.__str__()
