@@ -11,6 +11,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')), # DRF browsable API
 
+    # 임시 및 테스트(유닛 테스트 아님) 관련 모든 API
+    path('api/test/', include('apis.test.urls')),
+
     # user 관련 모든 API
     path('api/user/', include('apis.user.urls')),
 
@@ -18,7 +21,7 @@ urlpatterns = [
     path('api/products/', include('apis.products.urls')),
 
     # orders 관련 모든 API
-    path('api/orders/', include('apis.orders.urls')),    
+    path('api/orders/', include('apis.orders.urls')),
 ]
 
 # ==================================================================== #

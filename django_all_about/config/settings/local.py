@@ -44,7 +44,7 @@ ALLOWED_HOSTS = ['*']
 
 # 로깅 세팅
 DEVELOP_LOGGING['handlers']['file']['filename'] = f"{BASE_DIR}/logs/django_all_about.log"
-print(DEVELOP_LOGGING['handlers']['file']['filename'])
+# print(DEVELOP_LOGGING['handlers']['file']['filename'])
 LOGGING = DEVELOP_LOGGING
 
 # ==================================================================== #
@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
 
     # 추가한 API, APPs
+    'apis.test',
     'apis.user',
     'apis.products',
     'apis.orders',

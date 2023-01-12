@@ -22,7 +22,6 @@ app.conf.update(
     timezone = 'Asia/Seoul'
 )
 
-
 app.autodiscover_tasks() # celery가 task를 자동으로 찾게 세팅해주기 -> @share task 어노테이션만 달아주면 됨
 # app.conf.broker_url = BASE_REDIS_URL
 

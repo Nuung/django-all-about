@@ -44,26 +44,24 @@
 4. `docker` 디렉토리로 가서 `docker-start.sh` 실행 (ex - `source docker-start.sh`)
 - 상대 경로 등의 설정으로 인해 **꼭 해당 디렉토리로 가서 shell을 실행**시키자.
 - 최초 실행시 celery-beat 등의 경우 migrate issue로 죽을 수 있으니 re-start를 다시 해주자
+- 모든 실행후 http://localhost/admin 으로 접속 
+  - 8000으로 바인딩했으면서 왜 80으로 가냐? docker - nginx conf 참조, 리버스 프록시 세팅 모두 되어있음
 
 
 ### Development
 
+> 우선 `django_all_about >> logs` file logging을 사용하기 때문에 디렉토리 만들어줘야합니다.
+
 1. 개발 환경 구성하기
-- `python -m venv .venv & pip install -r requirements.txt` 을 통해 직접 local 환경 구성을 해서 진행을 해도 괜찮다.
 - 추천하는 방법은 vs-code 등에서 "docker - django" (hostname: `daa-django`)에 붙어서 작업하는 것이다.
-- 
+- 디버깅 및 실행 얘기
 
-- `python manage.py migrate`
-- `python manage.py migrate --database=orders` 다중 데이터베이스 세팅으로 꼭 해주셔야 합니다.
-- 디렉토리 만들기, `django_all_about >> logs` file logging을 사용하기 때문에 디렉토리 만들어줘야합니다.
-- `python manage.py runserver` 정상 작동 테스트 후 exit
-- 서버 러닝이 정상 작동 한다면, super user 생성하기, `python manage.py createsuperuser`
-- `python manage.py collectstatic` 로 static file 생성 까지 진행
-- `python manage.py runserver` 를 통해 http://localhost/admin 으로 접속 
-  - 8000으로 바인딩했으면서 왜 80으로 가냐? docker - nginx conf 참조, 리버스 프록시 세팅 모두 되어있음
-- 이후 업데이트 시 `scripts > server-run.sh` 파일을 source 명령어로 러닝하면 된다. (데이터 세팅 때문에 최초 1회는 꼭 필요하다)
+2. 실행만 도커, 작업은 로컬로 구성하기
+- `python -m venv .venv & pip install -r requirements.txt` 을 통해 직접 local 환경 구성을 해서 진행을 해도 괜찮다.
+- `python manage.py migrate` & `python manage.py migrate --database=orders` 다중 데이터베이스 세팅으로 꼭 해주셔야 합니다.
+- 그 이외 실행 관련된 커멘드는 scripts 하위 `start-django.sh` 를 보는게 좋다.
 
-### detail config
+### Development - DB detail config
 
 1. mongo user 만들기
 - mongo container shell 접근
@@ -106,6 +104,8 @@ db.runCommand('usersInfo')
 5. `python manage.py shell --setting=config.settings.local < ./apis/products/item_dump_generator.py` 커멘드를 통해 dump item generating을 할 수 있다.
 
 6. django 파일 빈번하게 바꾸면서 테스트할 꺼라면, django를 도커라이징에서 제외하고 사용하는 것을 추천 (기본 세팅)
+
+===
 
 ## Case
 

@@ -4,6 +4,8 @@ export DJANGO_SETTINGS_ENV="config.settings.local"
 
 cd /app
 
+pip install -r requirements.txt
+
 python manage.py migrate
 python manage.py migrate --database=orders
 echo yes | python manage.py collectstatic

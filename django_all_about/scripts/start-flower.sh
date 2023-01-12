@@ -2,6 +2,8 @@
 
 cd /app
 
+pip install -r requirements.txt
+
 celery flower \
     --app=config.celery \
     --broker="${CELERY_BROKER_URL}" \

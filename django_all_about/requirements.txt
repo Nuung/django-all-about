@@ -2,9 +2,12 @@ amqp==5.1.1
 argh==0.26.2
 asgiref==3.5.2
 async-timeout==4.0.2
+backports.zoneinfo==0.2.1
+beautifulsoup4==4.11.1
 billiard==3.6.4.0
 boto3==1.24.5
 botocore==1.27.5
+bs4==0.0.1
 celery==5.2.7
 certifi==2022.5.18.1
 cffi==1.15.0
@@ -89,6 +92,7 @@ s3transfer==0.6.0
 sentry-sdk==1.5.12
 shellescape==3.8.1
 six==1.16.0
+soupsieve==2.3.2.post1
 sqlparse==0.2.4
 tomli==2.0.1
 tornado==6.2
