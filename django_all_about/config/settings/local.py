@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from logging.handlers import TimedRotatingFileHandler
 
 import environ
 from celery.beat import crontab
@@ -43,7 +44,9 @@ SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = ['*']
 
 # 로깅 세팅
-DEVELOP_LOGGING['handlers']['file']['filename'] = f"{BASE_DIR}/logs/daa-django.log"
+Path(f"{BASE_DIR}/logs").mkdir(parents=True, exist_ok=True)
+DJANGO_LOGGING_PATH = f"{BASE_DIR}/logs/daa-django.log"
+DEVELOP_LOGGING['handlers']['file']['filename'] = DJANGO_LOGGING_PATH
 LOGGING = DEVELOP_LOGGING # django logging
 
 # celery logging

@@ -34,8 +34,9 @@ def get_retry_session() -> Session:
 @app.task
 def check_registration_number_from_hometax(registration_number="1208801280"):
 
-    from time import sleep
-    sleep(1)
+    # logging & test 할 때는 sleep 주고 체크하는게 좋다.
+    # from time import sleep
+    # sleep(1)
 
     s = get_retry_session()
 

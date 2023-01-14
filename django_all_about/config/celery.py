@@ -52,7 +52,9 @@ def setup_logger(
     # File
     celery_log_path = str(settings.CELERY_BEAT_LOG_PATH) if settings.CELERY_BEAT_FLAG else str(settings.CELERY_LOG_PATH)
     file_handler = TimedRotatingFileHandler(
-        filename=celery_log_path, when="D", interval=1, backupCount=5
+        filename=celery_log_path, 
+        when="D", interval=1, backupCount=5,
+        encoding="utf-8"
     )
     file_handler.setFormatter(formatter)
 

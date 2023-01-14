@@ -1,3 +1,4 @@
+import logging
 
 # django, drf lib
 from rest_framework import status
@@ -32,6 +33,9 @@ def check_registration_number(request: Request):
     #     check_registration_number_from_hometax.apply_async(args=[registration_number], kwargs={})
     ## to-be
     sub_task = [ check_registration_number_from_hometax.si(q) for q in qry_list ]
+    logging.info("한글깨짐 테스트")
+    logging.info(sub_task)
+
     from celery import group
     group(sub_task)()
     
