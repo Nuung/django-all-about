@@ -1,5 +1,6 @@
 
 # CUSTOM #
+**/grafana/**
 **/mongodb/data/**
 **/mongodb/logs/**
 **/nginx/logs/**

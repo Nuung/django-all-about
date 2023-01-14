@@ -1,9 +1,10 @@
+from celery.result import AsyncResult 
 from apis.test.tasks import check_registration_number_from_hometax
 
 # delay와 apply_async
-task_1 = check_registration_number_from_hometax.delay("1208801280")
-task_2 = check_registration_number_from_hometax.apply_async( args=["3898602190"], ignore_result=True )
-task_3 = check_registration_number_from_hometax.apply_async( args=["123"], kwargs={} )
+task_1: AsyncResult = check_registration_number_from_hometax.delay("1208801280")
+task_2: AsyncResult = check_registration_number_from_hometax.apply_async( args=["3898602190"], ignore_result=True )
+task_3: AsyncResult = check_registration_number_from_hometax.apply_async( args=["123"], kwargs={} )
  
 print("# 1. Task UUID")
 print(f"task_1 is {task_1.id}")
@@ -24,3 +25,8 @@ print("# 4. Task Status again")
 print(f"task_1 is ready? {task_1.ready()}")
 print(f"task_2 is ready? {task_2.ready()}")
 print(f"task_3 is ready? {task_3.ready()}")
+
+print("# 5. When is the time task was done")
+print(f"task_1 is {task_1.date_done}")
+print(f"task_2 is {task_2.date_done}")
+print(f"task_3 is {task_3.date_done}")

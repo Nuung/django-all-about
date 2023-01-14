@@ -26,9 +26,14 @@ def check_registration_number(request: Request):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     qry_list = qry.split(",")
-    for registration_number in qry_list:
-        registration_number = registration_number.strip()
-        check_registration_number_from_hometax.apply_async(args=[registration_number], kwargs={})
+    ## as-is
+    # for registration_number in qry_list:
+    #     registration_number = registration_number.strip()
+    #     check_registration_number_from_hometax.apply_async(args=[registration_number], kwargs={})
+    ## to-be
+    sub_task = [ check_registration_number_from_hometax.si(q) for q in qry_list ]
+    from celery import group
+    group(sub_task)()
     
     return Response(
         dict(success=True, message="사업자 등록 번호를 조회합니다. 결과는 admin에서 확인해 주세요"),

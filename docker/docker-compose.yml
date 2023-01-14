@@ -134,16 +134,54 @@ services:
     networks:
       - django-all-about-app    
 
+  # ==========================================================================
+  # DevOps Flower & Grafana & Prometheus
+  # ==========================================================================
+
   dda-flower:
     <<: *daa-django
-    container_name: dda-celeryflower
+    hostname: dda-flower
+    container_name: dda-flower
     ports:
       - "5555:5555"
     depends_on:
       - dda-celeryworker
     command: /scripts/start-flower.sh
     networks:
-      - django-all-about-app    
+      - django-all-about-app
+
+  dda-prometheus:
+    image: prom/prometheus
+    hostname: dda-prometheus
+    container_name: dda-prometheus
+    ports:
+      - "9090:9090"    
+    restart: always
+    volumes:
+      - ../prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - django-all-about-app
+
+  daa-grafana:
+    image: grafana/grafana
+    hostname: daa-grafana
+    container_name: daa-grafana
+    ports:
+      - "3003:3003"
+    restart: always
+    volumes:
+      - ../grafana:/var/lib/grafana/
+    environment:
+      - GF_SECURITY_ADMIN_USER=grafana
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+      - GF_SERVER_HTTP_PORT=3003
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    depends_on:
+      - dda-prometheus
+    networks:
+      - django-all-about-app
 
 networks:
   django-all-about-app:
