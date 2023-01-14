@@ -9,6 +9,46 @@ maxBytes - 로그 파일의 최대 크기는 5MB로 설정
 backupCount - 롤링되는 파일의 개수를 의미한다. 총 5개의 로그 파일로 유지되도록 설정했다.
 formatter - 포맷터는 standard를 사용
 '''
+import logging
+
+from celery._state import get_current_task
+from json_log_formatter import JSONFormatter
+
+TARGET_ATTR = ["levelname", "name", "module", "funcName", "lineno", "filename", "pathname", "created"]
+
+class CustomisedJSONFormatter(JSONFormatter):
+    def json_record(self, message: str, extra: dict, record: logging.LogRecord) -> dict:
+        extra.update(
+            {
+                attr_name: record.__dict__[attr_name]
+                for attr_name in record.__dict__
+                if attr_name in TARGET_ATTR
+            }
+        )
+        extra['message'] = message or record.message
+        request = extra.pop('request', None)
+        if request:
+            extra['x_forward_for'] = request.META.get('X-FORWARD-FOR')
+        if record.exc_info:
+            extra["exc_info"] = self.formatException(record.exc_info)
+        else:
+            extra["exc_info"] = None
+        return extra
+
+
+class CeleryJSONFormatter(CustomisedJSONFormatter):
+    def json_record(self, message: str, extra: dict, record: logging.LogRecord) -> dict:
+        extra = super().json_record(message, extra, record)
+        # Update task info.
+        task = get_current_task()
+        if task and task.request:
+            extra["task_id"] = task.request.id
+            extra["task_name"] = task.name
+        else:
+            extra["task_id"] = None
+            extra["task_name"] = None
+        return extra
+
 
 DEVELOP_LOGGING = {
     'version': 1,
@@ -27,8 +67,16 @@ DEVELOP_LOGGING = {
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
+        'json': {
+            '()': CustomisedJSONFormatter,
+        }
     },
     "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "default_formatter",
+        },
         "file": {
             "level": "INFO",
             # 'filters': ['require_debug_false'],
@@ -37,14 +85,14 @@ DEVELOP_LOGGING = {
             "maxBytes": 1024*1024*10,
             "backupCount":5,
             # 'filename': BASE_DIR / 'logs/django_all_about.log',
-            "formatter": "default_formatter",
+            "formatter": "json",
         }
     },
     "loggers": {
-        'django': {
-            'handlers': ['file'],
-            'level': 'INFO',
-            'propagate': False,
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",
+            "propagate": False,
         }
     }
 }

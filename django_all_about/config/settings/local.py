@@ -43,9 +43,14 @@ SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = ['*']
 
 # 로깅 세팅
-DEVELOP_LOGGING['handlers']['file']['filename'] = f"{BASE_DIR}/logs/django_all_about.log"
-# print(DEVELOP_LOGGING['handlers']['file']['filename'])
-LOGGING = DEVELOP_LOGGING
+DEVELOP_LOGGING['handlers']['file']['filename'] = f"{BASE_DIR}/logs/daa-django.log"
+LOGGING = DEVELOP_LOGGING # django logging
+
+# celery logging
+CELERY_LOG_LEVEL = "INFO"
+CELERY_LOG_PATH = f"{BASE_DIR}/logs/daa-celery.log"
+CELERY_BEAT_LOG_PATH = f"{BASE_DIR}/logs/daa-celery-beat.log"
+CELERY_BEAT_FLAG = env.bool('CELERY_BEAT_FLAG', False)
 
 # ==================================================================== #
 #                     설치된 앱, 사용하는 앱 config                         #

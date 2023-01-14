@@ -7,6 +7,7 @@ FROM python:${PYTHON_VERSION}
 RUN apt-get update && apt-get install -y \
   wget \
   gnupg2 \
+  procps \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*

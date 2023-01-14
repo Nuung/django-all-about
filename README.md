@@ -42,7 +42,7 @@
 - 그리고 `django_all_about` 하위 `.env`는 **버전관리 대상에서 빠진다.**
 - `cp ./docker/env ./django_all_about/config/settings/.env` (최상위 경로 기준 커멘드)
 3. `django_all_about` 가서 필수 base image가 될 django image를 만들자
-- `docker build -t dda-django -f ./Dockerfile .`
+- `docker build -t daa-django -f ./Dockerfile .`
 - 해당 경로에 ***러닝 스크립트 관련 scripts***, `requirements.txt` 가 있으니 필참
 4. `docker` 디렉토리로 가서 `docker-start.sh` 실행 (ex - `source docker-start.sh`)
 - 상대 경로 등의 설정으로 인해 **꼭 해당 디렉토리로 가서 shell을 실행**시키자.

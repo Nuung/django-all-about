@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-
+export CELERY_BEAT_FLAG=false
 cd /app
 
 pip install -r requirements.txt
 
-USE_DJANGO_LOGGING=False celery -A config.celery worker -l INFO
+celery -A config.celery worker -l INFO
