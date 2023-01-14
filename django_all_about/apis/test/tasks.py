@@ -32,7 +32,7 @@ def get_retry_session() -> Session:
     return session
 
 @app.task
-def check_registration_number_from_hometax(registration_number=1208801280):
+def check_registration_number_from_hometax(registration_number="1208801280"):
 
     from time import sleep
     sleep(1)

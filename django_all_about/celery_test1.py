@@ -3,8 +3,8 @@ from apis.test.tasks import check_registration_number_from_hometax
 
 # delay와 apply_async
 task_1: AsyncResult = check_registration_number_from_hometax.delay("1208801280")
-task_2: AsyncResult = check_registration_number_from_hometax.apply_async( args=["3898602190"], ignore_result=True )
-task_3: AsyncResult = check_registration_number_from_hometax.apply_async( args=["123"], kwargs={} )
+task_2: AsyncResult = check_registration_number_from_hometax.apply_async(args=["3898602190"], ignore_result=True)
+task_3: AsyncResult = check_registration_number_from_hometax.apply_async(args=["123"], kwargs={})
  
 print("# 1. Task UUID")
 print(f"task_1 is {task_1.id}")

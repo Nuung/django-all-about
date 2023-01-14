@@ -14,14 +14,17 @@
 
 ## Infra & Requirements
 
-- Django
-- DRF (Django RestFrameWork)
+- Django + DRF (Django RestFrameWork)
 - Gunicorn (wsgi)
 - Celery, Celery Beat
 - Redis
 - Postgresql
 - Mongodb
 - Nginx
+- DevOps: Monitoring & Debugging
+  - Flower
+  - Prometheus
+  - Grafana & Loki
 
 ## Getting Start
 
@@ -105,7 +108,7 @@ db.runCommand('usersInfo')
 
 6. django 파일 빈번하게 바꾸면서 테스트할 꺼라면, django를 도커라이징에서 제외하고 사용하는 것을 추천 (기본 세팅)
 
-===
+---
 
 ## Case
 
