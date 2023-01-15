@@ -40,7 +40,7 @@
 
 2. 우선 `docker` 하위에 있는 `env` 파일을 `django_all_about/config/settings` 로 copy & paste 하자
 - 이름은 `.env` 로 copy 한다. 이유는 `python-environ` 모듈을 사용하기 때문이다.
-- 참고로 env 값 바뀌면 2개의 file을 update 해주자, `django_all_about`
+- 참고로 env 값 바뀌면 2개의 file을 update 해주자, `django_all_about > .env` & `docker > env`
 - 그리고 `django_all_about` 하위 `.env`는 **버전관리 대상에서 빠진다.**
 - `cp ./docker/env ./django_all_about/config/settings/.env` (최상위 경로 기준 커멘드)
 
@@ -65,7 +65,7 @@
 
 1. 개발 환경 구성하기
 - 추천하는 방법은 vs-code 등에서 "docker - django" (hostname: `daa-django`)에 붙어서 작업하는 것이다.
-- 디버깅 및 실행 얘기
+- 위 항목 (5)에서 vscode 디버깅을 그대로 사용하려면, 컨테이너에 붙어서 러닝해야 한다 :)
 
 2. 실행만 도커, 작업은 로컬로 구성하기
 - `python -m venv .venv & pip install -r requirements.txt` 을 통해 직접 local 환경 구성을 해서 진행을 해도 괜찮다.
