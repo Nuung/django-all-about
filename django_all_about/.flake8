@@ -1,6 +1,6 @@
 [flake8]
 show-source = true
-max-line-length = 88
+max-line-length = 100
 extend-ignore = E266,E402,E501,F841,F401
 exclude =
     # No need to traverse our git directory
