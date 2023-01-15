@@ -8,9 +8,15 @@ RUN apt-get update && apt-get install -y \
   wget \
   gnupg2 \
   procps \
+  unzip \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
+
+# promtail install & run
+RUN wget https://github.com/grafana/loki/releases/download/v2.2.1/promtail-linux-amd64.zip \
+    && unzip promtail-linux-amd64.zip \
+    && rm promtail-linux-amd64.zip
 
 # Install dockerize to wait depedencies
 ENV DOCKERIZE_VERSION v0.6.1

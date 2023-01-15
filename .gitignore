@@ -6,6 +6,14 @@
 **/nginx/logs/**
 **/postgresql/data/**
 **/redis/data/**
+**/promtail/**
+**/loki/**
+
+# exception
+!loki/config
+!loki/config/local-config.yaml
+!promtail/config
+!promtail/config/config.yml
 
 ############################################################################
 

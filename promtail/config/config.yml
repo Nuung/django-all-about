@@ -1,0 +1,28 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /promtail/positions.yaml
+
+clients:
+  - url: http://daa-loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: daa-django
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: djangolog
+          __path__: "/app/logs/daa-django.log"
+      - targets:
+        - localhost
+        labels:
+          job: celerylog
+          __path__: "/app/logs/daa-celery.log"
+      - targets:
+        - localhost
+        labels:
+          job: celerybeatlog
+          __path__: "/app/logs/daa-celery-beat.log"          

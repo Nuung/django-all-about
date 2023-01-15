@@ -2,6 +2,9 @@
 
 export DJANGO_SETTINGS_ENV="config.settings.local"
 
+# promtail run
+nohup /promtail-linux-amd64 -config.file=/promtail/config/config.yml > /dev/null 2>&1 &
+
 cd /app
 
 pip install -r requirements.txt

@@ -15,6 +15,8 @@ services:
     volumes:
       - ../django_all_about:/app:z
       - ../django_all_about/scripts:/scripts
+      - ../promtail:/promtail/
+      - ../promtail/log:/var/log
     env_file:
       - ./env
     ports:
@@ -135,7 +137,7 @@ services:
       - django-all-about-app    
 
   # ==========================================================================
-  # DevOps Flower & Grafana & Prometheus
+  # DevOps Monitoring Flower & Grafana & Prometheus
   # ==========================================================================
 
   dda-flower:
@@ -182,6 +184,38 @@ services:
       - dda-prometheus
     networks:
       - django-all-about-app
+
+  # ==========================================================================
+  # DevOps Logging Grafana Loki & Grafana Promtail
+  # ==========================================================================
+
+  daa-loki:
+    image: grafana/loki:2.6.1
+    hostname: daa-loki
+    container_name: daa-loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - ../loki/:/loki/
+    command: -config.file=/loki/config/local-config.yaml
+    networks:
+      - django-all-about-app
+
+  # promtail은 "agent"로써 수집할 server에 있어야함
+  # base image build할 때 포함시키기
+  # daa-promtail:
+  #   image: grafana/promtail:2.6.1
+  #   hostname: daa-promtail
+  #   container_name: daa-promtail    
+  #   volumes:
+  #     - ../promtail:/promtail/
+  #     - ../promtail/log:/var/log
+  #     - ../promtail/config/config.yml:/promtail/config.yml
+  #   command: -config.file=/promtail/config.yml
+  #   networks:
+  #     - django-all-about-app
+
+
 
 networks:
   django-all-about-app:

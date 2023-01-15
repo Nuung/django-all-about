@@ -11,6 +11,8 @@ from drf_yasg.utils import swagger_auto_schema
 # app lib
 from apis.test.tasks import check_registration_number_from_hometax
 
+logger = logging.getLogger(__name__)
+
 @swagger_auto_schema(
     method='GET', 
     manual_parameters=[
@@ -33,8 +35,8 @@ def check_registration_number(request: Request):
     #     check_registration_number_from_hometax.apply_async(args=[registration_number], kwargs={})
     ## to-be
     sub_task = [ check_registration_number_from_hometax.si(q) for q in qry_list ]
-    logging.info("한글깨짐 테스트")
-    logging.info(sub_task)
+    logger.info("한글깨짐 테스트")
+    logger.info(sub_task)
 
     from celery import group
     group(sub_task)()
