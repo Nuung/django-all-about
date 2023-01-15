@@ -1,26 +1,26 @@
-
 from time import process_time_ns
 from django.core.handlers.wsgi import WSGIRequest
+
 # from django.utils.deprecation import MiddlewareMixin
 from rest_framework.response import Response
 
 
 def view_process_time_middleware(get_response):
-    
     def middleware(request: WSGIRequest):
         view_process_start_time = process_time_ns()
         response: Response = get_response(request)
-        
+
         ############ After response ############
 
         view_process_end_time = process_time_ns()
         if not response.has_header("process_time"):
-            response["View-Process-Run-Time"] = view_process_end_time - view_process_start_time
+            response["View-Process-Run-Time"] = (
+                view_process_end_time - view_process_start_time
+            )
 
         return response
 
     return middleware
-
 
 
 class ViewProcessTimeMiddleware:
@@ -43,4 +43,6 @@ class ViewProcessTimeMiddleware:
         self.view_process_start_time = process_time_ns()
 
     def process_response(self, request, response):
-        response["View-Process-Run-Time"] = process_time_ns() - self.view_process_start_time
+        response["View-Process-Run-Time"] = (
+            process_time_ns() - self.view_process_start_time
+        )

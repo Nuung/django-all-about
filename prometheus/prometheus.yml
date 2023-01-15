@@ -11,3 +11,7 @@ scrape_configs:
   - job_name: flower
     static_configs:
       - targets: ['dda-flower:5555']
+
+  - job_name: django
+    static_configs:
+      - targets: ['daa-django:8000']

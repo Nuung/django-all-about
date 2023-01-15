@@ -1,4 +1,3 @@
-
 # django, drf lib
 from django.contrib import admin
 

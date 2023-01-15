@@ -1,4 +1,3 @@
-
 # django, drf lib
 from django.urls import path
 
@@ -6,7 +5,5 @@ from django.urls import path
 from apis.test.views import check_registration_number
 
 urlpatterns = [
-
-    path('check/', check_registration_number, name='check-registration-number'),
-
+    path("check/", check_registration_number, name="check-registration-number"),
 ]

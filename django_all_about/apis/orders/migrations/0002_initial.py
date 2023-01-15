@@ -10,30 +10,38 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('products', '0001_initial'),
+        ("products", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('orders', '0001_initial'),
+        ("orders", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='orderrequest',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="orderrequest",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='orderlist',
-            name='item',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.items'),
+            model_name="orderlist",
+            name="item",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="products.items"
+            ),
         ),
         migrations.AddField(
-            model_name='orderlist',
-            name='order_request',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='orders.orderrequest'),
+            model_name="orderlist",
+            name="order_request",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="orders.orderrequest"
+            ),
         ),
         migrations.AddField(
-            model_name='orderaddress',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="orderaddress",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]

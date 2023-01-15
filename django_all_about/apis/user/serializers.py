@@ -1,4 +1,3 @@
-
 # django, drf lib
 from django.conf import settings
 from rest_auth.registration.serializers import RegisterSerializer
@@ -6,6 +5,7 @@ from rest_auth.serializers import LoginSerializer
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
+
 
 class CustomRegisterSerializer(RegisterSerializer):
     username = password1 = password2 = None
@@ -15,13 +15,17 @@ class CustomRegisterSerializer(RegisterSerializer):
 
     class Meta:
         model = settings.AUTH_USER_MODEL
-        fields = ('id', 'email', 'name',)
+        fields = (
+            "id",
+            "email",
+            "name",
+        )
 
     def get_cleaned_data(self):
         return dict(
-            email=self.validated_data.get('email', ''),
-            password=self.validated_data.get('password', ''),
-            name=self.validated_data.get('name', ''),
+            email=self.validated_data.get("email", ""),
+            password=self.validated_data.get("password", ""),
+            name=self.validated_data.get("name", ""),
         )
 
     def validate(self, data):

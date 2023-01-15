@@ -1,10 +1,19 @@
-
 import logging
 
 from celery._state import get_current_task
 from json_log_formatter import JSONFormatter
 
-TARGET_ATTR = ["levelname", "name", "module", "funcName", "lineno", "filename", "pathname", "created"]
+TARGET_ATTR = [
+    "levelname",
+    "name",
+    "module",
+    "funcName",
+    "lineno",
+    "filename",
+    "pathname",
+    "created",
+]
+
 
 class CustomisedJSONFormatter(JSONFormatter):
     def json_record(self, message: str, extra: dict, record: logging.LogRecord) -> dict:
@@ -15,10 +24,10 @@ class CustomisedJSONFormatter(JSONFormatter):
                 if attr_name in TARGET_ATTR
             }
         )
-        extra['message'] = message or record.message
-        request = extra.pop('request', None)
+        extra["message"] = message or record.message
+        request = extra.pop("request", None)
         if request:
-            extra['x_forward_for'] = request.META.get('X-FORWARD-FOR')
+            extra["x_forward_for"] = request.META.get("X-FORWARD-FOR")
         if record.exc_info:
             extra["exc_info"] = self.formatException(record.exc_info)
         else:
@@ -41,25 +50,20 @@ class CeleryJSONFormatter(CustomisedJSONFormatter):
 
 
 DEVELOP_LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-
-    # root 값 변경해줘야함 실제 환경에서는 
-    "root": {
-        "level": "INFO", 
-        "handlers": ["file"]
-    },
+    "version": 1,
+    "disable_existing_loggers": False,
+    # root 값 변경해줘야함 실제 환경에서는
+    "root": {"level": "INFO", "handlers": ["file"]},
     "formatters": {
         "default_formatter": {
             "format": (
-                u"%(asctime)s [%(levelname)-8s] "
-                "(%(module)s.%(funcName)s) %(message)s"
+                "%(asctime)s [%(levelname)-8s] " "(%(module)s.%(funcName)s) %(message)s"
             ),
             "datefmt": "%Y-%m-%d %H:%M:%S",
         },
-        'json': {
-            '()': CustomisedJSONFormatter,
-        }
+        "json": {
+            "()": CustomisedJSONFormatter,
+        },
     },
     "handlers": {
         "console": {
@@ -78,8 +82,8 @@ DEVELOP_LOGGING = {
             "when": "midnight",
             "interval": 1,
             "formatter": "json",
-            "encoding": "utf-8"
-        }
+            "encoding": "utf-8",
+        },
     },
     "loggers": {
         "django": {
@@ -87,11 +91,11 @@ DEVELOP_LOGGING = {
             "level": "INFO",
             "propagate": False,
         }
-    }
+    },
 }
 
 
-# 특정 로깅을 하고 싶은 경우, 다음과 같이 로깅하면 된다 
+# 특정 로깅을 하고 싶은 경우, 다음과 같이 로깅하면 된다
 # import logging
 # logger = logging.getLogger('django')
 # logger.info("INFO 레벨로 출력")

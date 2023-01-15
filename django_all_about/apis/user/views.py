@@ -1,4 +1,3 @@
-
 # python lib
 from typing import Any
 
@@ -6,7 +5,7 @@ from typing import Any
 from django.shortcuts import render
 from rest_auth.views import LoginView
 from rest_auth.registration.views import RegisterView
-from rest_framework import (generics, status)
+from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser
@@ -14,7 +13,12 @@ from rest_framework_simplejwt.views import TokenViewBase
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # app lib
-from apis.user.serializers import CustomRegisterSerializer, CustomLoginSerializer, CustomTokenRefreshSerializer
+from apis.user.serializers import (
+    CustomRegisterSerializer,
+    CustomLoginSerializer,
+    CustomTokenRefreshSerializer,
+)
+
 
 class RegisterAPIView(RegisterView):
     # parser_classes = MultiPartParser
@@ -30,10 +34,7 @@ class RegisterAPIView(RegisterView):
         token = TokenObtainPairSerializer.get_token(user)
 
         return Response(
-            dict(
-                access_token=str(token.access_token),
-                refresh_token=str(token)
-            ),
+            dict(access_token=str(token.access_token), refresh_token=str(token)),
             status=status.HTTP_200_OK,
         )
 

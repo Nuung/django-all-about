@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Django Debug runserver",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "runserver",
+                "8001"
+            ],
+            "django": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Django Debug shell",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "shell_plus",
+                "--print-sql"
+            ],
+            "django": true,
+            "justMyCode": true
+        }
+    ]
+}
