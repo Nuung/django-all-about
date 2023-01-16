@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_extensions",  # https://django-extensions.readthedocs.io/
     # Celery
     "django_celery_beat",
     # Prometheus
@@ -260,6 +261,25 @@ DATABASE_ROUTERS = [
     "config.dbrouter.MultiDBRouter",
 ]
 
+# # for not docker
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "daa-postgres-db",
+#         "USER": "nuung",
+#         "PASSWORD": "daa123!",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     },
+#     "orders": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "daa-postgres-order-db",
+#         "USER": "nuung",
+#         "PASSWORD": "daa123!",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     },
+# }
 DATABASES = {
     "default": env.db("MAIN_DB_URL"),
     "orders": env.db("SUB_DB_URL"),

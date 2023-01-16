@@ -3,6 +3,9 @@
 import os
 import sys
 
+from django.conf import settings
+from django.db.utils import OperationalError
+
 
 def main():
     """Run administrative tasks."""
@@ -17,6 +20,28 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
+    # try:
+    #     execute_from_command_line(sys.argv)
+    # except OperationalError:  # db connection error
+    #     settings.DATABASES = {
+    #         "default": {
+    #             "ENGINE": "django.db.backends.postgresql",
+    #             "NAME": "daa-postgres-db",
+    #             "USER": "nuung",
+    #             "PASSWORD": "daa123!",
+    #             "HOST": "localhost",
+    #             "PORT": "5432",
+    #         },
+    #         "orders": {
+    #             "ENGINE": "django.db.backends.postgresql",
+    #             "NAME": "daa-postgres-order-db",
+    #             "USER": "nuung",
+    #             "PASSWORD": "daa123!",
+    #             "HOST": "localhost",
+    #             "PORT": "5432",
+    #         },
+    #     }
+    #     execute_from_command_line(sys.argv)
 
 
 if __name__ == "__main__":

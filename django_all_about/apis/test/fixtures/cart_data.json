@@ -1,0 +1,62 @@
+[
+    {
+        "model": "test.Cart",
+        "pk": 1,
+        "fields": {
+            "uesr": 3,
+            "product": 2,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Cart",
+        "pk": 2,
+        "fields": {
+            "uesr": 3,
+            "product": 3,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Cart",
+        "pk": 3,
+        "fields": {
+            "uesr": 3,
+            "product": 4,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Cart",
+        "pk": 4,
+        "fields": {
+            "uesr": 5,
+            "product": 1,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Cart",
+        "pk": 6,
+        "fields": {
+            "uesr": 6,
+            "product": 1,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Cart",
+        "pk": 5,
+        "fields": {
+            "uesr": 8,
+            "product": 5,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    }
+]

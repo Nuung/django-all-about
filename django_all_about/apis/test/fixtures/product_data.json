@@ -1,0 +1,62 @@
+[
+    {
+        "model": "test.Product",
+        "pk": 1,
+        "fields": {
+            "name": "테스트 제품1",
+            "price": 1000,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Product",
+        "pk": 2,
+        "fields": {
+            "name": "테스트 제품2",
+            "price": 2000,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Product",
+        "pk": 3,
+        "fields": {
+            "name": "테스트 제품3",
+            "price": 10000,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Product",
+        "pk": 4,
+        "fields": {
+            "name": "테스트 제품4",
+            "price": 121300,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Product",
+        "pk": 5,
+        "fields": {
+            "name": "테스트 제품5",
+            "price": 2390000,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    },
+    {
+        "model": "test.Product",
+        "pk": 6,
+        "fields": {
+            "name": "육육 제품",
+            "price": 190300,
+            "created_at": "2023-01-16 23:40:23.209883",
+            "updated_at": "2023-01-16 23:40:23.209883"
+        }
+    }
+]
