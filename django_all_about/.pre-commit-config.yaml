@@ -30,3 +30,12 @@ repos:
         language: python
         types: [python]
         require_serial: true
+
+  - repo: local
+    hooks:
+      - id: some-id
+        name: some-name
+        description: some description
+        entry: bash -c 'echo "TEST"'
+        language: system
+        types: [python]
