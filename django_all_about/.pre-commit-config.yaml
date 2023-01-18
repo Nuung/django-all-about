@@ -39,12 +39,3 @@ repos:
         entry: bash -c
         args: ["django_all_about/requirements-file-checker.sh"]
         language: system
-
-  - repo: local
-    hooks:
-      - id: commit-syntax-checker
-        name: commit syntax checker
-        description: checking the commit message's syntax
-        entry: python
-        args: ["django_all_about/commit-syntax.py"]
-        language: python
