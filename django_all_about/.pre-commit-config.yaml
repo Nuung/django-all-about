@@ -33,10 +33,9 @@ repos:
 
   - repo: local
     hooks:
-      - id: some-id
-        name: some-name
-        description: some description
+      - id: requirements-file-checker
+        name: requirements file checker
+        description: checking existing of the requirements file
         entry: bash -c
-        args: ["django_all_about/test.sh"]
+        args: ["django_all_about/requirements-file-checker.sh"]
         language: system
-        # types: [python]
