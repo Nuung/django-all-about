@@ -36,6 +36,7 @@ repos:
       - id: some-id
         name: some-name
         description: some description
-        entry: bash -c 'echo "TEST"'
+        entry: source
+        args: ["django_all_about/test.sh"]
         language: system
         types: [python]
