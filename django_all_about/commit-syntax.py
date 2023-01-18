@@ -10,4 +10,4 @@ SUCCESS = 0
 def main() -> int:
     parser = argparse.ArgumentParser()
     print(parser)
-    return SUCCESS
+    return FAIL
