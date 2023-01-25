@@ -158,3 +158,10 @@ db.runCommand('usersInfo')
 - 위 2가지를 활용하기, 자세한 내용은 아래 블로그 글들로 대신한다.
 - [Django Celery - async worker celery & redis (message que) basic](https://velog.io/@qlgks1/Django-Celery-MQ-message-que)
 - [Django Redis - caching, scheduling (task), pub/sub message que](https://velog.io/@qlgks1/Django-Redis-caching-scheduling-task-messaging-celery-async-worker)
+
+
+### 9. Server log 수집 & 전체 서버 stack 모니터링 / Prometheus + Grafana (loki, promtail)
+- celery를 위한 flower, 그리고 그 metric 정보를 수집할 prometheus, 그 데이터를 시계열 시각화 해주는 grafana
+- log를 수집하는 agent promtail, 그리고 log를 알맞게 (특화된) 저장하고 검색에 특화된 loki, 그 데이터를 시계열 시각화 해주는 grafana
+- docker compose 를 통해 Up 해도 grafana dashboard 세팅은 직접하는게 좋다. 아래글을 꼭 참조하자!
+- [Django Celery - 효과적인 디버깅 & 모니터링: Logging + Flower + Prometheus + Grafana(with Loki & Promtail)]()
