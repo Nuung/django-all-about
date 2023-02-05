@@ -1,34 +1,13 @@
 # python lib
 import logging
-from requests import Session, Response
-from requests.adapters import HTTPAdapter, Retry
+from requests import Response
 from bs4 import BeautifulSoup
 
 from config.celery import app
 from apis.test.models import CheckedCrn
+from utils.retry_session import get_retry_session
 
 logger = logging.getLogger(__name__)
-
-
-def get_retry_session() -> Session:
-    """
-    - request 모듈에서 제공해주는 adapter pattern 활용
-    - retry 내장 request session object 만들기
-    """
-    retries_number = 3
-    backoff_factor = 0.3
-    status_forcelist = (500, 400)
-
-    retry = Retry(
-        total=retries_number,
-        read=retries_number,
-        connect=retries_number,
-        backoff_factor=backoff_factor,
-        status_forcelist=status_forcelist,
-    )
-    session = Session()
-    session.mount("http://", HTTPAdapter(max_retries=retry))
-    return session
 
 
 @app.task

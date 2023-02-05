@@ -1,6 +1,8 @@
 import logging
+import random
 
 # django, drf lib
+from django.core.cache import cache
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -10,6 +12,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 # app lib
 from apis.test.tasks import check_registration_number_from_hometax
+from batch.crawl_dev_quotes import DevQuote
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +34,7 @@ logger = logging.getLogger(__name__)
 def check_registration_number(request: Request):
     """
     - query에서 list로 넘어온 사업자 등록 번호들을 폐업 여부를 체크하는 API
+    - celery task와 연동되서 비동기로 update 한다.
     """
     qry = request.GET.get("query")
     if not qry:
@@ -52,5 +56,34 @@ def check_registration_number(request: Request):
 
     return Response(
         dict(success=True, message="사업자 등록 번호를 조회합니다. 결과는 admin에서 확인해 주세요"),
+        status=status.HTTP_200_OK,
+    )
+
+
+@swagger_auto_schema(
+    method="GET",
+    manual_parameters=[
+        openapi.Parameter(
+            "num",
+            openapi.IN_QUERY,
+            description="결과값 가져올 형태, 하나또는 전체",
+            required=True,
+            default="one",
+            enum=["all", "one"],
+            type=openapi.TYPE_STRING,
+        ),
+    ],
+)
+@api_view(("GET",))
+def get_dev_quote(request: Request):
+    """
+    - cache에 저장된 DevQuote를 resturn
+    - num (url querystring) [all or None] 값에 따라 하나 또는 전체 리턴한다.
+    """
+    num = request.GET.get("num", None)
+    dev_quotes_list: list = cache.get("dev-quotes", None)
+    results = dev_quotes_list if num == "all" else random.choice(dev_quotes_list)
+    return Response(
+        dict(success=True, results=results),
         status=status.HTTP_200_OK,
     )

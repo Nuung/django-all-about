@@ -165,3 +165,8 @@ db.runCommand('usersInfo')
 - log를 수집하는 agent promtail, 그리고 log를 알맞게 (특화된) 저장하고 검색에 특화된 loki, 그 데이터를 시계열 시각화 해주는 grafana
 - docker compose 를 통해 Up 해도 grafana dashboard 세팅은 직접하는게 좋다. 아래글을 꼭 참조하자!
 - [Django Celery - 효과적인 디버깅 & 모니터링: Logging + Flower + Prometheus + Grafana(with Loki & Promtail)]()
+
+
+### 10. 다양한 곳에서 볼 수 있는 cache 활용하기
+- `crawl_dev_quotes_batch` 함수에서 celery periodic task 를 활용해 cache를 update한다.
+  - `get_dev_quote` 에서 cached 된 data를 simple하게 어떻게 API로 만드는지 볼 수 있다.

@@ -371,13 +371,13 @@ DJANGO_CELERY_BEAT_TZ_AWARE = USE_TZ  # celery beat의 장고 시간대 사용 �
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 # https://docs.celeryproject.org/en/latest/userguide/configuration.html#std-setting-beat_schedule
 CELERY_BEAT_SCHEDULE = {
-    # "check-firmbank-crawler-availability": {
-    #     "task": "earlypay.apps.debug.tasks.check_firmbank_crawler_availability",
-    #     "schedule": crontab(minute=0, hour="*"),
-    #     "options": {
-    #         "expires": 2 * 60,  # 2 min
-    #     },
-    # }
+    "crawling-dev-quotes-and-update": {
+        "task": "batch.crawl_dev_quotes.crawl_dev_quotes_batch",
+        "schedule": crontab(minute=0, hour="0"),
+        "options": {
+            "expires": 2 * 60,  # 2 min
+        },
+    }
 }
 
 
