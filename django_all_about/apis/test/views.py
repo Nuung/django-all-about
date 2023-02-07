@@ -1,6 +1,8 @@
 import logging
 import random
 
+from celery import group
+
 # django, drf lib
 from django.core.cache import cache
 from rest_framework import status
@@ -49,8 +51,6 @@ def check_registration_number(request: Request):
     sub_task = [check_registration_number_from_hometax.si(q) for q in qry_list]
     logger.info("한글깨짐 테스트")
     logger.info(sub_task)
-
-    from celery import group
 
     group(sub_task)()
 

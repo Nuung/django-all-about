@@ -42,7 +42,7 @@ def crawl_dev_quotes_batch(self: Task):
         dev_quotes_list = list()
         for r in res:
             r["created_at"] = datetime.now()
-            dev_quote = DevQuote(**r)
+            dev_quote = DevQuote(**r)  # data 검증, vaildation
             dev_quotes_list.append(dev_quote.to_dict())
 
         # cache update

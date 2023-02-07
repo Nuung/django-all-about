@@ -8,6 +8,7 @@
 **/redis/data/**
 **/promtail/**
 **/loki/**
+**/django_all_about/logs/**
 
 # exception
 !loki/config
