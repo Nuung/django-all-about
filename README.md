@@ -141,7 +141,11 @@ db.runCommand('usersInfo')
 - `config > custom_middleware.py` 를 확인해 보자.
 
 ### 6. DRF response, request 커스텀 자유롭게 하기
--
+- test app (`django_all_about > apis > test > ... `) 부분에서 urls, views, serializers 부분 참고
+  - 1:N 일때 1의 역참조 serializer, N의 정참조 serializer
+  - 기본 `serializers.Serializer` 의 custom file 만들기
+  - `serializers` 의 본질에 조금 더 다가서기, 어떻게 Response를 만드는가
+- [Django, DRF Serializers - serializer 파헤치기, 왜 serializer? response가 만들어지기 까지](https://velog.io/@qlgks1/Django-DRF-Serializers-serializer-%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0-%EC%99%9C-serializer-response%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EA%B8%B0-%EA%B9%8C%EC%A7%80) 글과 함께 follow 해주시면 감사합니다.
 
 ### 7. Model field index와 퍼포먼스 체커
 - 최적화로 들어가는 Django query
