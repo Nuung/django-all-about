@@ -5,7 +5,7 @@ from celery import group
 
 # django, drf lib
 from django.core.cache import cache
-from rest_framework import status
+from rest_framework import generics, status, viewsets
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -14,9 +14,79 @@ from drf_yasg.utils import swagger_auto_schema
 
 # app lib
 from apis.test.tasks import check_registration_number_from_hometax
+from apis.test.models import CheckedCrn, Product, Cart
+from apis.test.serializers import (
+    CheckedCrnSerializer,
+    ProductSerializer,
+    CartWithProductSerializer,
+    CartSerializer,
+    CartUpdateSerializer,
+)
 from batch.crawl_dev_quotes import DevQuote
 
 logger = logging.getLogger(__name__)
+
+
+class CheckedCrnListAPIView(generics.ListAPIView):
+    """
+    - CheckedCrn 모델 GET ALL API
+    """
+
+    queryset = CheckedCrn.objects.all().order_by("-id")
+    serializer_class = CheckedCrnSerializer
+
+
+class ProductListAPIView(generics.ListCreateAPIView):
+    """
+    - Product n Card GET ALL API & Create
+    """
+
+    queryset = Product.objects.all().order_by("-id")
+    serializer_class = ProductSerializer
+
+
+class CartListAPIView(generics.ListAPIView):
+    """
+    - Cart GET ALL API
+    """
+
+    queryset = Cart.objects.all().order_by("-id")
+    serializer_class = CartWithProductSerializer
+
+
+class CartCreateAPIView(generics.CreateAPIView):
+    """
+    - Cart Bulk Create API
+    """
+
+    queryset = Cart.objects.all().order_by("-id")
+    serializer_class = CartSerializer
+
+    def create(self, request: Request, *args, **kwargs) -> Response:
+        kwargs["many"] = isinstance(request.data, list)
+        serializer = self.get_serializer(data=request.data, **kwargs)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class CartBulkUpdateAPIView(viewsets.ModelViewSet):
+
+    queryset = Cart.objects.all().order_by("-id")
+    serializer_class = CartUpdateSerializer
+
+    def partial_update(self, request: Request, *args, **kwargs) -> Response:
+        kwargs["partial"] = True
+        if kwargs.pop("pk", None):
+            serializer = self.get_serializer(
+                instance=self.get_object(), data=request.data, **kwargs
+            )
+        else:
+            kwargs["many"] = isinstance(request.data, list)
+            serializer = self.get_serializer(
+                self.get_queryset(), data=request.data, **kwargs
+            )
+        serializer.is_valid(raise_exception=True)
 
 
 @swagger_auto_schema(
