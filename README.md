@@ -176,3 +176,9 @@ db.runCommand('usersInfo')
 ### 10. 다양한 곳에서 볼 수 있는 cache 활용하기
 - `crawl_dev_quotes_batch` 함수에서 celery periodic task 를 활용해 cache를 update한다.
   - `get_dev_quote` 에서 cached 된 data를 simple하게 어떻게 API로 만드는지 볼 수 있다.
+
+
+---
+
+
+[![Hits Graphs](https://hits.seeyoufarm.com/api/count/graph/dailyhits.svg?url=https%3A%2F%2Fgithub.com%2FNuung%2Fdjango-all-about)](https://hits.seeyoufarm.com)
