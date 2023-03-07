@@ -1,10 +1,13 @@
 # python lib
 import logging
+from typing import List, Tuple
 from requests import Response
 from bs4 import BeautifulSoup
+from django.db.models import Q
+from celery import chain
 
 from config.celery import app
-from apis.test.models import CheckedCrn
+from apis.test.models import CheckedCrn, Cart, CartStatus
 from utils.retry_session import get_retry_session
 
 logger = logging.getLogger(__name__)
@@ -56,3 +59,27 @@ def check_registration_number_from_hometax(registration_number="1208801280"):
     except Exception:
         return None
     return new_check_crn.__str__()
+
+
+@app.task
+def get_carted_items():
+    target_cart_items = list(
+        Cart.objects.filter(
+            Q(user__isnull=False),
+            status=CartStatus.DEFAULT,
+        )
+        .select_related("user")
+        .values_list("id", "user")
+    )
+    return target_cart_items
+
+
+@app.task
+def fetch_noti(target_id_list: List[Tuple]):
+    for cart_id, user_id in target_id_list:
+        logger.info(f"{cart_id}, {user_id}")
+
+
+def cart_and_noti():
+    res = chain(get_carted_items.s(), fetch_noti.s())()
+    logger.info(f"res >> {res}")

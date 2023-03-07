@@ -1,5 +1,7 @@
-from apis.user.models import User
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from apis.user.models import User
 
 
 class CheckedCrn(models.Model):
@@ -26,13 +28,24 @@ class Product(models.Model):
         return f"[{self.name}] {self.price}원"
 
 
+class CartStatus(models.TextChoices):
+    DEFAULT = "DE", _("Default value")
+    DONE = "DN", _("End of purchase value")
+    CANCEL = "CN", _("Cancel or delete value")
+
+
 class Cart(models.Model):
-    uesr = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=False, null=False)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, blank=False, null=False
+    )
+    status = models.CharField(
+        max_length=2,
+        choices=CartStatus.choices,
+        default=CartStatus.DEFAULT,
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return f"{self.pk} {self.uesr.name}, {self.uesr.email} 유저가 {self.product} 담음"
+        return f"{self.pk} {self.user.name}, {self.user.email} 유저가 {self.product} 담음"

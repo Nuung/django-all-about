@@ -37,6 +37,16 @@ def debug_task(self):
     print(f"Request: {self.request!r}")
 
 
+@app.task
+def add(x, y):
+    return x + y
+
+
+@app.task
+def tsum(numbers):
+    return sum(numbers)
+
+
 # celery & celery beat logging setting
 # signal 활용
 @after_setup_logger.connect
