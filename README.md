@@ -169,14 +169,13 @@ db.runCommand('usersInfo')
 - [Django Celery - 단점, Task & subTask & Signature 비동기 작업 다루기 with network I/O](https://velog.io/@qlgks1/Django-Celery-%EB%8B%A8%EC%A0%90-Task-subTask-Signature-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%9E%91%EC%97%85-%EB%8B%A4%EB%A3%A8%EA%B8%B0-with-network-IO)
 - [Django Celery - Task 그룹 작업, 선후행 Chain, 일괄 처리 (배치) Group & Chord](https://velog.io/@qlgks1/Django-Celery-Task-%EA%B7%B8%EB%A3%B9-%EC%9E%91%EC%97%85-%EC%84%A0%ED%9B%84%ED%96%89-Chain-%EC%9D%BC%EA%B4%84-%EC%B2%98%EB%A6%AC-%EB%B0%B0%EC%B9%98-Group-Chord)
 
-### 9. Server log 수집 & 전체 서버 stack 모니터링 / Prometheus + Grafana (loki, promtail)
+### 10. Server log 수집 & 전체 서버 stack 모니터링 / Prometheus + Grafana (loki, promtail)
 - celery를 위한 flower, 그리고 그 metric 정보를 수집할 prometheus, 그 데이터를 시계열 시각화 해주는 grafana
 - log를 수집하는 agent promtail, 그리고 log를 알맞게 (특화된) 저장하고 검색에 특화된 loki, 그 데이터를 시계열 시각화 해주는 grafana
 - docker compose 를 통해 Up 해도 grafana dashboard 세팅은 직접하는게 좋다. 아래글을 꼭 참조하자!
 - [Django Celery - 효과적인 디버깅 & 모니터링: Logging + Flower + Prometheus + Grafana(with Loki & Promtail)]()
 
-
-### 10. 다양한 곳에서 볼 수 있는 cache 활용하기
+### 11. 다양한 곳에서 볼 수 있는 cache 활용하기
 - `crawl_dev_quotes_batch` 함수에서 celery periodic task 를 활용해 cache를 update한다.
   - `get_dev_quote` 에서 cached 된 data를 simple하게 어떻게 API로 만드는지 볼 수 있다.
 
