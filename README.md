@@ -156,7 +156,6 @@ db.runCommand('usersInfo')
   - 그 순위 5순위까지 검색 결과값 item search result json를 redis에 캐싱처리하기
   - 계속되는 최적화 및 캐싱처리로 체크
 
-
 ### 8. redis + celery worker / celery beat & redis pub n sub 구조 활용하기
 - django -> redis -> celery beat / celery worker (if result) -> redis
 - django -> redis message queue (producing) <- queue consumer action
@@ -165,6 +164,10 @@ db.runCommand('usersInfo')
 - [Django Celery - async worker celery & redis (message que) basic](https://velog.io/@qlgks1/Django-Celery-MQ-message-que)
 - [Django Redis - caching, scheduling (task), pub/sub message que](https://velog.io/@qlgks1/Django-Redis-caching-scheduling-task-messaging-celery-async-worker)
 
+### 9. Django & Celery stack 활용하기
+- 위에서 더 나아가 celery task에 더 집중한 활용 방법이다. 아래 두 글과 follow up한다면 분명 기본적인 활용에는 쉽게 파악가능할 것이다.
+- [Django Celery - 단점, Task & subTask & Signature 비동기 작업 다루기 with network I/O](https://velog.io/@qlgks1/Django-Celery-%EB%8B%A8%EC%A0%90-Task-subTask-Signature-%EB%B9%84%EB%8F%99%EA%B8%B0-%EC%9E%91%EC%97%85-%EB%8B%A4%EB%A3%A8%EA%B8%B0-with-network-IO)
+- [Django Celery - Task 그룹 작업, 선후행 Chain, 일괄 처리 (배치) Group & Chord](https://velog.io/@qlgks1/Django-Celery-Task-%EA%B7%B8%EB%A3%B9-%EC%9E%91%EC%97%85-%EC%84%A0%ED%9B%84%ED%96%89-Chain-%EC%9D%BC%EA%B4%84-%EC%B2%98%EB%A6%AC-%EB%B0%B0%EC%B9%98-Group-Chord)
 
 ### 9. Server log 수집 & 전체 서버 stack 모니터링 / Prometheus + Grafana (loki, promtail)
 - celery를 위한 flower, 그리고 그 metric 정보를 수집할 prometheus, 그 데이터를 시계열 시각화 해주는 grafana
