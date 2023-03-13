@@ -377,7 +377,7 @@ CELERY_BEAT_SCHEDULE = {
         "options": {
             "expires": 2 * 60,  # 2 min
         },
-    }
+    },
 }
 
 
