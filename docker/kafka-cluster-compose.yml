@@ -1,0 +1,169 @@
+version: "3.5"
+services:
+  daa-zoo1:
+    image: zookeeper:3.8.0
+    hostname: daa-zoo1
+    container_name: daa-zoo1
+    ports:
+      - "2181:2181"
+    volumes:
+      - ../zookeeper/data/1:/data
+      - ../zookeeper/datalog/1:/datalog
+      - ../zookeeper/logs/1:/logs
+    networks:
+      - daa-kafka-cluster-network
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      # ZOOKEEPER_SERVERS: daa-zoo1:2888:3888;daa-zoo2:2888:3888;daa-zoo3:2888:3888
+      ZOOKEEPER_SERVERS: server.1=daa-zoo1:2888:3888 server.2=daa-zoo2:2888:3888 server.3=daa-zoo3:2888:3888
+
+  daa-zoo2:
+    image: zookeeper:3.8.0
+    hostname: daa-zoo2
+    container_name: daa-zoo2
+    ports:
+      - "2182:2182"
+    volumes:
+      - ../zookeeper/data/2:/data
+      - ../zookeeper/datalog/2:/datalog
+      - ../zookeeper/logs/2:/logs
+    networks:
+      - daa-kafka-cluster-network
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 2182
+      ZOOKEEPER_SERVERS: server.1=daa-zoo1:2888:3888 server.2=daa-zoo2:2888:3888 server.3=daa-zoo3:2888:3888
+
+  daa-zoo3:
+    image: zookeeper:3.8.0
+    hostname: daa-zoo3
+    container_name: daa-zoo3
+    ports:
+      - "2183:2183"
+    volumes:
+      - ../zookeeper/data/3:/data
+      - ../zookeeper/datalog/3:/datalog
+      - ../zookeeper/logs/3:/logs
+    networks:
+      - daa-kafka-cluster-network
+    environment:
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_CLIENT_PORT: 2183
+      ZOOKEEPER_SERVERS: server.1=daa-zoo1:2888:3888 server.2=daa-zoo2:2888:3888 server.3=daa-zoo3:2888:3888
+
+  daa-kafka1:
+    image: wurstmeister/kafka:2.13-2.8.1
+    hostname: daa-kafka1
+    container_name: daa-kafka1
+    ports:
+      - "9092:9092"
+      - "19092"
+    volumes:
+      - ../kafka/logs/1:/kafka/logs
+    networks:
+      - daa-kafka-cluster-network
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_PRODUCER_MAX_REQUEST_SIZE: 536870912
+      CONNECT_PRODUCER_MAX_REQUEST_SIZE: 536870912
+      KAFKA_LISTENERS: INSIDE://daa-kafka1:19092,OUTSIDE://0.0.0.0:9092
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://daa-kafka1:19092,OUTSIDE://127.0.0.1:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: "daa-zoo1:2181,daa-zoo2:2182,daa-zoo3:2183"
+      KAFKA_LOG_DIRS: "/kafka/logs"
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=daa-kafka1 -Dcom.sun.management.jmxremote.rmi.port=9992"
+      JMX_PORT: 9992
+    depends_on:
+      - daa-zoo1
+      - daa-zoo2
+      - daa-zoo3
+
+  daa-kafka2:
+    image: wurstmeister/kafka:2.13-2.8.1
+    hostname: daa-kafka2
+    container_name: daa-kafka2
+    ports:
+      - "9093:9093"
+      - "19093"
+    volumes:
+      - ../kafka/logs/2:/kafka/logs
+    networks:
+      - daa-kafka-cluster-network
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_PRODUCER_MAX_REQUEST_SIZE: 536870912
+      CONNECT_PRODUCER_MAX_REQUEST_SIZE: 536870912
+      KAFKA_LISTENERS: INSIDE://daa-kafka2:19093,OUTSIDE://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://daa-kafka2:19093,OUTSIDE://127.0.0.1:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: "daa-zoo1:2181,daa-zoo2:2182,daa-zoo3:2183"
+      KAFKA_LOG_DIRS: "/kafka/logs"
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=daa-kafka2 -Dcom.sun.management.jmxremote.rmi.port=9992"
+      JMX_PORT: 9992
+    depends_on:
+      - daa-zoo1
+      - daa-zoo2
+      - daa-zoo3
+
+  daa-kafka3:
+    image: wurstmeister/kafka:2.13-2.8.1
+    hostname: daa-kafka3
+    container_name: daa-kafka3
+    ports:
+      - "9094:9094"
+      - "19094"
+    volumes:
+      - ../kafka/logs/3:/kafka/logs
+    networks:
+      - daa-kafka-cluster-network
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_PRODUCER_MAX_REQUEST_SIZE: 536870912
+      CONNECT_PRODUCER_MAX_REQUEST_SIZE: 536870912
+      KAFKA_LISTENERS: INSIDE://daa-kafka3:19094,OUTSIDE://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://daa-kafka3:19094,OUTSIDE://127.0.0.1:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: "daa-zoo1:2181,daa-zoo2:2182,daa-zoo3:2183"
+      KAFKA_LOG_DIRS: "/kafka/logs"
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=daa-kafka3 -Dcom.sun.management.jmxremote.rmi.port=9992"
+      JMX_PORT: 9992
+    depends_on:
+      - daa-zoo1
+      - daa-zoo2
+      - daa-zoo3
+
+  daa-kafka-manager:
+    image: hlebalbau/kafka-manager:2.0.0.2
+    container_name: daa-kafka-manager
+    restart: on-failure
+    environment:
+      ZK_HOSTS: "daa-zoo1:2181,daa-zoo2:2182,daa-zoo3:2183"
+      APPLICATION_SECRET: "random-secret"
+      KM_ARGS: -Djava.net.preferIPv4Stack=true
+    command:
+      - "-Dcmak.zkhosts=daa-zoo1:2181,daa-zoo2:2182,daa-zoo3:2183"
+      - "-DbasicAuthentication.enabled=true"
+      - "-DbasicAuthentication.username=kafka-admin"
+      - "-DbasicAuthentication.password=kafka-admin#"
+    ports:
+      - "9000:9000"
+    networks:
+      - daa-kafka-cluster-network
+    depends_on:
+      - daa-zoo1
+      - daa-zoo2
+      - daa-zoo3
+      - daa-kafka1
+      - daa-kafka2
+      - daa-kafka3
+
+networks:
+  daa-kafka-cluster-network:
+    driver: bridge

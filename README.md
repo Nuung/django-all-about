@@ -179,6 +179,10 @@ db.runCommand('usersInfo')
 - `crawl_dev_quotes_batch` 함수에서 celery periodic task 를 활용해 cache를 update한다.
   - `get_dev_quote` 에서 cached 된 data를 simple하게 어떻게 API로 만드는지 볼 수 있다.
 
+### 12. Kafka cluster with Python & Django
+- `docker > kafka-cluster-compose.yml` 의 컴포즈 파일 기반으로 zookeeper 3 - kafka 3의 형태로 clustering된 kafka node 실행
+- 실행파일은 `docker > kafka-docker-start.sh`, 쉘파일 존재, 해당 디렉토리로 가서 `source kafka-docker-start.sh` 로 바로 실행 가능
+
 
 ---
 

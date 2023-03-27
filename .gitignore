@@ -9,6 +9,8 @@
 **/promtail/**
 **/loki/**
 **/django_all_about/logs/**
+**/kafka/logs/**
+**/zookeeper/**
 
 # exception
 !loki/config
