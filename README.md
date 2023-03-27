@@ -173,7 +173,7 @@ db.runCommand('usersInfo')
 - celery를 위한 flower, 그리고 그 metric 정보를 수집할 prometheus, 그 데이터를 시계열 시각화 해주는 grafana
 - log를 수집하는 agent promtail, 그리고 log를 알맞게 (특화된) 저장하고 검색에 특화된 loki, 그 데이터를 시계열 시각화 해주는 grafana
 - docker compose 를 통해 Up 해도 grafana dashboard 세팅은 직접하는게 좋다. 아래글을 꼭 참조하자!
-- [Django Celery - 효과적인 디버깅 & 모니터링: Logging + Flower + Prometheus + Grafana(with Loki & Promtail)]()
+- [Django Celery - 효과적인 디버깅 & 모니터링: Logging + Flower + Prometheus + Grafana(with Loki & Promtail)](https://velog.io/@qlgks1/Django-Celery-%ED%9A%A8%EA%B3%BC%EC%A0%81%EC%9D%B8-%EB%94%94%EB%B2%84%EA%B9%85-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81-Logging-Flower-Prometheus-Grafanawith-Loki-Promtail)
 
 ### 11. 다양한 곳에서 볼 수 있는 cache 활용하기
 - `crawl_dev_quotes_batch` 함수에서 celery periodic task 를 활용해 cache를 update한다.
@@ -182,6 +182,7 @@ db.runCommand('usersInfo')
 ### 12. Kafka cluster with Python & Django
 - `docker > kafka-cluster-compose.yml` 의 컴포즈 파일 기반으로 zookeeper 3 - kafka 3의 형태로 clustering된 kafka node 실행
 - 실행파일은 `docker > kafka-docker-start.sh`, 쉘파일 존재, 해당 디렉토리로 가서 `source kafka-docker-start.sh` 로 바로 실행 가능
+- [카프카 클러스터와 파이썬](https://velog.io/@qlgks1/%EC%B9%B4%ED%94%84%EC%B9%B4-%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0%EC%99%80-%ED%8C%8C%EC%9D%B4%EC%8D%AC) 글을 참조하시면 좋습니다!
 
 
 ---

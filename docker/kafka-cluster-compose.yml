@@ -15,7 +15,6 @@ services:
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
-      # ZOOKEEPER_SERVERS: daa-zoo1:2888:3888;daa-zoo2:2888:3888;daa-zoo3:2888:3888
       ZOOKEEPER_SERVERS: server.1=daa-zoo1:2888:3888 server.2=daa-zoo2:2888:3888 server.3=daa-zoo3:2888:3888
 
   daa-zoo2:
