@@ -26,13 +26,14 @@
 - Gunicorn (wsgi)
 - Celery, Celery Beat
 - Redis
-- Postgresql
+- Postgresql (2대, not clustering, each stand alone)
 - Mongodb
 - Nginx
 - DevOps: Monitoring & Debugging
   - Flower
   - Prometheus
   - Grafana & Loki & Promtail
+- Kafka cluster
 
 ## Getting Start
 
@@ -132,7 +133,8 @@ db.runCommand('usersInfo')
 - `config > dbrouter.py` 부분과 `config > settings > local.py` 에서 Database setting 부분을 참조해 보자
 - model에 `app_lable` 을 붙이는 것과 migrate 진행시 database option을 주는 것
 
-### 2. 모든 api는 unit test와 coverage와 함께
+### 2. 모든 api는 unit test와 coverage와 함께 & github 의 action을 통해 django test build 해보기
+- https://github.com/snypy/snypy-backend/blob/master/.github/workflows/test.yml
 - model moking 하기, 특히 user model 과 같은 경우
 
 ### 3. N:M 을 다루기
@@ -189,9 +191,6 @@ db.runCommand('usersInfo')
 - `docker > kafka-cluster-compose.yml` 의 컴포즈 파일 기반으로 zookeeper 3 - kafka 3의 형태로 clustering된 kafka node 실행
 - 실행파일은 `docker > kafka-docker-start.sh`, 쉘파일 존재, 해당 디렉토리로 가서 `source kafka-docker-start.sh` 로 바로 실행 가능
 - [카프카 클러스터와 파이썬](https://velog.io/@qlgks1/%EC%B9%B4%ED%94%84%EC%B9%B4-%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0%EC%99%80-%ED%8C%8C%EC%9D%B4%EC%8D%AC) 글을 참조하시면 좋습니다!
-
-### 13. github 의 action을 통해 django test build 해보기
-- https://github.com/snypy/snypy-backend/blob/master/.github/workflows/test.yml
 
 ---
 
