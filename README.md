@@ -1,5 +1,11 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FNuung%2Fdjango-all-about&count_bg=%23978AFF&title_bg=%23707070&icon=django.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
+<center>
+
+  ![](./imgs/img1.png)
+
+</center>
+
 
 # All About Django (almost)
 
@@ -184,6 +190,8 @@ db.runCommand('usersInfo')
 - 실행파일은 `docker > kafka-docker-start.sh`, 쉘파일 존재, 해당 디렉토리로 가서 `source kafka-docker-start.sh` 로 바로 실행 가능
 - [카프카 클러스터와 파이썬](https://velog.io/@qlgks1/%EC%B9%B4%ED%94%84%EC%B9%B4-%ED%81%B4%EB%9F%AC%EC%8A%A4%ED%84%B0%EC%99%80-%ED%8C%8C%EC%9D%B4%EC%8D%AC) 글을 참조하시면 좋습니다!
 
+### 13. github 의 action을 통해 django test build 해보기
+- https://github.com/snypy/snypy-backend/blob/master/.github/workflows/test.yml
 
 ---
 

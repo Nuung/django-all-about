@@ -20,10 +20,10 @@ services:
     env_file:
       - ./env
     ports:
-      - "8000:8000"      
+      - "8000:8000"
     command: /scripts/start-django.sh
     networks:
-      - django-all-about-app    
+      - django-all-about-app
 
   # ==========================================================================
   # Application (as S/W, as L7) WebServer - Nignx
@@ -109,7 +109,7 @@ services:
   # ==========================================================================
   # Celery, async worker - celery & celery beat celery monitor flower
   # ==========================================================================
-  
+
   dda-celeryworker:
     <<: *daa-django
     container_name: dda-celeryworker
@@ -134,7 +134,7 @@ services:
     ports: []
     command: /scripts/start-celerybeat.sh
     networks:
-      - django-all-about-app    
+      - django-all-about-app
 
   # ==========================================================================
   # DevOps Monitoring Flower & Grafana & Prometheus
@@ -157,7 +157,7 @@ services:
     hostname: dda-prometheus
     container_name: dda-prometheus
     ports:
-      - "9090:9090"    
+      - "9090:9090"
     restart: always
     volumes:
       - ../prometheus/:/etc/prometheus/
@@ -206,7 +206,7 @@ services:
   # daa-promtail:
   #   image: grafana/promtail:2.6.1
   #   hostname: daa-promtail
-  #   container_name: daa-promtail    
+  #   container_name: daa-promtail
   #   volumes:
   #     - ../promtail:/promtail/
   #     - ../promtail/log:/var/log
@@ -214,8 +214,6 @@ services:
   #   command: -config.file=/promtail/config.yml
   #   networks:
   #     - django-all-about-app
-
-
 
 networks:
   django-all-about-app:
