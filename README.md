@@ -6,6 +6,7 @@
 
 </center>
 
+[ 아직 완성이 아닙니다! 지속적으로 아래 해당하는 주제들이 코드 level에서도 업데이트 될 예정입니다!!! ]
 
 # All About Django (almost)
 
