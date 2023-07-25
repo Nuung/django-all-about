@@ -67,9 +67,10 @@ services:
       - django-all-about-app
 
   # ==========================================================================
-  # Main Database - postgresql
+  # Databases - postgresql
   # ==========================================================================
 
+  # main - select only
   daa-postgres:
     image: postgres:latest
     hostname: daa-postgres
@@ -83,6 +84,40 @@ services:
       POSTGRES_DB: daa-postgres-db
     volumes:
       - ../postgresql/data/:/var/lib/postgresql/data
+    networks:
+      - django-all-about-app
+
+  # sub - insert & update & delete only
+  daa-postgres-sub:
+    image: postgres:latest
+    hostname: daa-postgres-sub
+    container_name: daa-postgres-sub
+    restart: always
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "nuung"
+      POSTGRES_PASSWORD: daa123!
+      POSTGRES_DB: daa-postgres-db
+    volumes:
+      - ../postgresql-sub/data/:/var/lib/postgresql/data
+    networks:
+      - django-all-about-app
+
+  # backup - backup only
+  daa-postgres-backup:
+    image: postgres:latest
+    hostname: daa-postgres-backup
+    container_name: daa-postgres-backup
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: "nuung"
+      POSTGRES_PASSWORD: daa123!
+      POSTGRES_DB: daa-postgres-db
+    volumes:
+      - ../postgresql-backup/data/:/var/lib/postgresql/data
     networks:
       - django-all-about-app
 

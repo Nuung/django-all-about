@@ -2,11 +2,11 @@
 
 <center>
 
-  ![](./imgs/img1.png)
+  ![](./imgs/img2.png)
 
 </center>
 
-[ 아직 완성이 아닙니다! 지속적으로 아래 해당하는 주제들이 코드 level에서도 업데이트 될 예정입니다!!! ]
+***[ 아직 완성이 아닙니다! 지속적으로 아래 해당하는 주제들이 코드 level에서도 업데이트 될 예정입니다!!! ]***
 
 # All About Django (almost)
 
@@ -27,14 +27,21 @@
 - Gunicorn (wsgi)
 - Celery, Celery Beat
 - Redis
-- Postgresql (2대, not clustering, each stand alone)
+- Postgresql (***3대***, not clustering, each stand alone)
+  - default Postgresql에 DATABASE를 2개 나눠서 사용 (daa-postgres-db & daa-postgres-order-db)
+  - select-only DB : default
+  - insert-update-only DB
+  - just back-up (duplication) DB
 - Mongodb
+  - dbrouter에 따로 등록하지 않고, django ORM 사용하지 않음
+  - 특수 목적을 대상으로, pymongo와 같은 **ODM 활용**
 - Nginx
 - DevOps: Monitoring & Debugging
   - Flower
   - Prometheus
   - Grafana & Loki & Promtail
 - Kafka cluster
+  - 3 zookeper & 3 kafka & kafka-manager
 
 ## Getting Start
 
@@ -133,6 +140,9 @@ db.runCommand('usersInfo')
 ### 1. 전체 프로젝트 도커라이징 및 다중 데이터베이스 활용하기
 - `config > dbrouter.py` 부분과 `config > settings > local.py` 에서 Database setting 부분을 참조해 보자
 - model에 `app_lable` 을 붙이는 것과 migrate 진행시 database option을 주는 것
+
+#### 여기서 Kafka & Kafka connect - Debezium 활용
+- log-based CDC 환경 구성, 3대의 DB 복제 및 활용
 
 ### 2. 모든 api는 unit test와 coverage와 함께 & github 의 action을 통해 django test build 해보기
 - https://github.com/snypy/snypy-backend/blob/master/.github/workflows/test.yml

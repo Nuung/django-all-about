@@ -5,6 +5,8 @@
 **/mongodb/logs/**
 **/nginx/logs/**
 **/postgresql/data/**
+**/postgresql-backup/data/**
+**/postgresql-sub/data/**
 **/redis/data/**
 **/promtail/**
 **/loki/**

@@ -163,6 +163,37 @@ services:
       - daa-kafka2
       - daa-kafka3
 
+  daa-kafka-connect:
+    image: debezium/connect
+    hostname: daa-kafka-connect
+    container_name: daa-kafka-connect
+    restart: always
+    ports:
+      - "8083:8083"
+    links:
+      - daa-kafka1
+      - daa-kafka2
+      - daa-kafka3
+    environment:
+      - BOOTSTRAP_SERVERS=daa-kafka1:9092,daa-kafka2:9093,daa-kafka3:9094
+      - GROUP_ID=1
+      - CONFIG_STORAGE_TOPIC=connect_configs
+      - OFFSET_STORAGE_TOPIC=connect_offsets
+      - STATUS_STORAGE_TOPIC=connect_statuses
+    volumes:
+      - ../debezium/debezium-config.json:/kafka/connectors/debezium-config.json
+
+    # environment:
+    #   - GROUP_ID=connect-cluster
+    #   - CONFIG_STORAGE_TOPIC=my_connect_configs
+    #   - OFFSET_STORAGE_TOPIC=my_connect_offsets
+    #   - STATUS_STORAGE_TOPIC=my_connect_statuses
+    # volumes:
+    #   - ./my_connector_config.json:/kafka/connectors/my_connector_config.json
+    #   - /var/run/docker.sock:/var/run/docker.sock
+    # command: "bash -c 'cp /usr/share/java/kafka-connect-jdbc/* /usr/share/java/ && connect-standalone /kafka/config/worker.properties /kafka/connectors/my_connector_config.json'"
+    # scale: 3
+
 networks:
   daa-kafka-cluster-network:
     driver: bridge

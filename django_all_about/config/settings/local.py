@@ -283,23 +283,6 @@ DATABASE_ROUTERS = [
 DATABASES = {
     "default": env.db("MAIN_DB_URL"),
     "orders": env.db("SUB_DB_URL"),
-    # # mongo driver는 내장되어 있지 않아서,
-    # 'daa-mongo': {
-    #     'ENGINE': 'djongo',
-    #     'ENFORCE_SCHEMA': True,
-    #     'NAME': 'daa-mongo-db',
-    #     'CLIENT': {
-    #         'host': '127.0.0.1',
-    #         'port': 29019,
-    #         'username': 'nuung',
-    #         'password': 'daa123!',
-    #         'authSource': 'admin',
-    #         'authMechanism': 'SCRAM-SHA-1'
-    #     },
-    #     'TEST': {
-    #         'MIRROR': 'default',
-    #     },
-    # }
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 DATABASES["orders"]["ATOMIC_REQUESTS"] = True

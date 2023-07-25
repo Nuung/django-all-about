@@ -1,0 +1,18 @@
+{
+    "name": "daa-kafka-debezium-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.hostname": "host.docker.internal",
+        "database.port": "5432",
+        "database.user": "nuung",
+        "database.password": "daa123!",
+        "database.dbname": "daa-postgres-db",
+        "database.server.name": "daa-postgres-db",
+        "table.whitelist": "*",
+        "transforms": "unwrap,route",
+        "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+        "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
+        "transforms.route.regex": "([^.]+)\\.([^.]+)\\.([^.]+)",
+        "transforms.route.replacement": "$3"
+    }
+}
