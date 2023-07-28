@@ -8,11 +8,13 @@
         "database.password": "daa123!",
         "database.dbname": "daa-postgres-db",
         "database.server.name": "daa-postgres-db",
+        "plugin.name": "pgoutput",
         "table.whitelist": "*",
         "transforms": "unwrap,route",
         "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
         "transforms.route.type": "org.apache.kafka.connect.transforms.RegexRouter",
         "transforms.route.regex": "([^.]+)\\.([^.]+)\\.([^.]+)",
-        "transforms.route.replacement": "$3"
+        "transforms.route.replacement": "$3",
+        "topic.prefix": "psql_"
     }
 }
