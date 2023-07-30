@@ -258,6 +258,7 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 
 ## db라우터
 DATABASE_ROUTERS = [
+    "config.order_dbrouter.MultiDBRouter",
     "config.dbrouter.MultiDBRouter",
 ]
 
@@ -268,7 +269,15 @@ DATABASE_ROUTERS = [
 #         "NAME": "daa-postgres-db",
 #         "USER": "nuung",
 #         "PASSWORD": "daa123!",
-#         "HOST": "localhost",
+#         "HOST": "daa-postgres",
+#         "PORT": "5432",
+#     },
+#     "read": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "daa-postgres-db",
+#         "USER": "nuung",
+#         "PASSWORD": "daa123!",
+#         "HOST": "daa-postgres-sub",
 #         "PORT": "5432",
 #     },
 #     "orders": {
@@ -282,7 +291,8 @@ DATABASE_ROUTERS = [
 # }
 DATABASES = {
     "default": env.db("MAIN_DB_URL"),
-    "orders": env.db("SUB_DB_URL"),
+    "read": env.db("READ_DB_URL"),
+    "orders": env.db("ORDER_DB_URL"),
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 DATABASES["orders"]["ATOMIC_REQUESTS"] = True

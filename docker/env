@@ -9,7 +9,8 @@ POSTGRES_PORT=5432
 REDIS_HOST=daa-redis
 REDIS_PORT=6379
 MAIN_DB_URL=postgres://daa-postgres:5432/daa-postgres-db?user=nuung&password=daa123!
-SUB_DB_URL=postgres://daa-postgres:5432/daa-postgres-order-db?user=nuung&password=daa123!
+READ_DB_URL=postgres://daa-postgres-sub:5432/daa-postgres-db?user=nuung&password=daa123!
+ORDER_DB_URL=postgres://daa-postgres:5432/daa-postgres-order-db?user=nuung&password=daa123!
 
 # Celery
 CELERY_BROKER_URL=redis://daa-redis:6379/0
