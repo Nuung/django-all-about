@@ -43,7 +43,7 @@
 - Kafka cluster
   - 3 zookeper & 3 kafka & kafka-manager
 
-## 🔥 Getting Start
+## 🔥 Getting Started
 
 ### 1) requirements
 
@@ -177,12 +177,12 @@ db.runCommand('usersInfo')
   - `serializers` 의 본질에 조금 더 다가서기, 어떻게 Response를 만드는가
 - [Django, DRF Serializers - serializer 파헤치기, 왜 serializer? response가 만들어지기 까지](https://velog.io/@qlgks1/Django-DRF-Serializers-serializer-%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0-%EC%99%9C-serializer-response%EA%B0%80-%EB%A7%8C%EB%93%A4%EC%96%B4%EC%A7%80%EA%B8%B0-%EA%B9%8C%EC%A7%80) 글과 함께 follow 해주시면 감사합니다.
 
-### 7. Model field index와 퍼포먼스 체커
-- 최적화로 들어가는 Django query
-- API 스트레스 체크 및 최적화, 캐싱처리하기
-  - celery로 실시간 검색어 순위를 비동기적으로 계속해서 변경 및 저장
-  - 그 순위 5순위까지 검색 결과값 item search result json를 redis에 캐싱처리하기
-  - 계속되는 최적화 및 캐싱처리로 체크
+### 7. Django 최적화 하기
+- `django_optimization` 디렉토리로 application 분리되어 있다.
+- ***기본적으로 django을 사용하면서 접근해야하는 최적화 접근 관점***
+- query (orm level) & index & multi index & filter (where) 순서 & 캐싱 & 이중화 에 대한 내용을 다룬다.
+- 자세한 내용은 아래 블로그 글들로 대신한다.
+- []()
 
 ### 8. redis + celery worker / celery beat & redis pub n sub 구조 활용하기
 - django -> redis -> celery beat / celery worker (if result) -> redis
