@@ -1,6 +1,6 @@
 from django.db import models
 
-from django_optimization.user.models import User
+from user.models import User
 
 
 class BankInfo(models.Model):
@@ -50,6 +50,7 @@ class Transaction(models.Model):
         User,
         on_delete=models.SET_NULL,
         related_name="transaction",
+        null=True,
     )
     tran_date = models.DateTimeField(
         blank=False,

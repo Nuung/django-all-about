@@ -31,6 +31,7 @@ class User(models.Model):
         Profile,
         on_delete=models.SET_NULL,
         related_name="user",
+        null=True,
     )
     name = models.CharField(
         max_length=10,
@@ -45,7 +46,7 @@ class User(models.Model):
         unique=True,
     )
     inflow = models.CharField(
-        max_length=10,
+        max_length=20,
         blank=True,
         null=True,
         verbose_name="사용자 유입경로",
