@@ -1,6 +1,7 @@
 import random
 from decimal import Decimal
 from datetime import datetime, timedelta
+from multiprocessing import Pool
 
 from django.utils import timezone
 
@@ -50,31 +51,39 @@ def make_random_datetime() -> datetime:
     return result
 
 
-transaction_bulk_list = list()
+def make_transaction_dummy() -> list:
+    transaction_bulk_list = list()
+    for _ in range(10000):
+        # 랜덤 값들
+        transaction_type_choices = [choice[0] for choice in TransactionType.choices]
+        random_transaction_type = random.choice(transaction_type_choices)
+        target_user = User.objects.all().order_by("?").first()
+        target_platform = random.choice(PAT_PLATFORM_LIST)
 
-for _ in range(2000):
-    # 랜덤 값들
-    transaction_type_choices = [choice[0] for choice in TransactionType.choices]
-    random_transaction_type = random.choice(transaction_type_choices)
-    target_user = User.objects.all().order_by("?").first()
-    target_platform = random.choice(PAT_PLATFORM_LIST)
+        # 랜덤한 거래 액 값 생성
+        random_total = Decimal(str(random.randint(0, 100000)) + "0")
+        random_fee = random_total * Decimal(str(FEE_PERCENTAGE))
+        random_amount = random_total - random_fee
 
-    # 랜덤한 거래 액 값 생성
-    random_total = Decimal(str(random.randint(0, 100000)) + "0")
-    random_fee = random_total * Decimal(str(FEE_PERCENTAGE))
-    random_amount = random_total - random_fee
-
-    transaction_bulk_list.append(
-        Transaction(
-            user=target_user,
-            tran_date=make_random_datetime(),
-            pay_type=random_transaction_type,
-            pay_platform=target_platform,
-            amount_total=random_total,
-            amount_fee=random_fee,
-            amount=random_amount,
+        transaction_bulk_list.append(
+            Transaction(
+                user=target_user,
+                tran_date=make_random_datetime(),
+                pay_type=random_transaction_type,
+                pay_platform=target_platform,
+                amount_total=random_total,
+                amount_fee=random_fee,
+                amount=random_amount,
+            )
         )
-    )
+    return transaction_bulk_list
 
-res = Transaction.objects.bulk_create(transaction_bulk_list)
-print(f"[{TODAY}] {len(res)} 개의 Transaction bulk create")
+
+def transaction_bulk_create(idx: int = 1) -> None:
+    transaction_bulk_list = make_transaction_dummy()
+    res = Transaction.objects.bulk_create(transaction_bulk_list)
+    print(f"[{TODAY}] 총 {idx * len(res)} 개의 Transaction bulk create")
+
+
+for i in range(1, 251):
+    transaction_bulk_create(i)

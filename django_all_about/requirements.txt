@@ -91,6 +91,7 @@ platformdirs==2.6.2
 pre-commit==2.21.0
 prometheus-client==0.15.0
 prompt-toolkit==3.0.29
+psycopg2==2.9.7
 psycopg2-binary==2.9.4
 pycodestyle==2.10.0
 pycparser==2.21
