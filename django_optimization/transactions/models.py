@@ -76,3 +76,6 @@ class Transaction(models.Model):
     amount_fee = models.DecimalField(max_digits=12, decimal_places=0)
     amount = models.DecimalField(max_digits=12, decimal_places=0)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.user}, {self.tran_date}, {self.pay_platform}, {self.pay_type}, {self.amount_total}"

@@ -27,6 +27,7 @@ defusedxml==0.7.1
 Deprecated==1.2.13
 distlib==0.3.6
 Django==4.0.5
+django-admin-rangefilter==0.11.0
 django-allauth==0.51.0
 django-baton==2.3.0
 django-celery-beat==2.3.0

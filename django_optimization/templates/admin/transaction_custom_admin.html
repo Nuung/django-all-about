@@ -1,0 +1,36 @@
+{% extends "admin/change_list.html" %} {% block content %} {{ block.super }}
+<!-- 아래부분이 커스텀으로 추가할 부분 -->
+<h1>전체 데이터 통계</h1>
+
+<div class="results">
+  <table id="extra_context" width="100%">
+    <thead>
+      <tr>
+        <th scope="col" style="width: 10%">
+          <div class="text">거래 타입</div>
+        </th>
+        <th scope="col">
+          <div class="text">Sum Amount Total</div>
+        </th>
+        <th scope="col">
+          <div class="text">Sum Amount Fee</div>
+        </th>
+        <th scope="col">
+          <div class="text">Sum Amount</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in result %}
+      <tr>
+        <td>{{ item.pay_type }}</td>
+        <td>{{ item.sum_amount_total }}</td>
+        <td>{{ item.sum_amount_fee }}</td>
+        <td>{{ item.sum_amount }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

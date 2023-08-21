@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # 3td party
     "phonenumber_field",
     "debug_toolbar",  # debug (side tool bar), django-debug-toolbar
+    "rangefilter",  # https://pypi.org/project/django-admin-rangefilter/
     # apps
     "user",
     "transactions",
@@ -61,7 +62,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [str(BASE_DIR / "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
