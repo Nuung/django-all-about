@@ -162,9 +162,10 @@ db.runCommand('usersInfo')
 - `OrderRequest 1<-N OrderList N->1 item N->1 seller`
 
 ### 4. admin을 admin 답게 커스텀하기
-- 기존에 있는 admin을 좀 더 admin이 활용할 수 있게 custom 하기
-- createsuperuser 로 만들어지는 superuser 회원가입 template 만들기
-- mongodb에 있는 dump data를 보는 template 만들기
+- 기존에 있는 admin을 좀 더 admin이 활용할 수 있게 custom 하기, 아래 velog글들로 대체한다.
+- [Django admin custom (1) - 기본적인 admin form custom & simple custom template](https://velog.io/@qlgks1/Django-admin-custom)
+- [Django admin custom (2) - 장고도 UX 개선을 해야한다! custom list & detail view, custom field & filter 와 추가 라이브러리](https://velog.io/@qlgks1/Django-admin-custom-2-custom-list-detail-view-custom-field-action-inline-action-%EC%99%80-%EC%B6%94%EA%B0%80-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC)
+- [Django admin custom (3) - 장고도 UX 개선을 해야한다! Action & In-line action, Excel import & export, Base Admin Model 과 추가 라이브러리](https://velog.io/@qlgks1/Django-admin-custom-3-%EC%9E%A5%EA%B3%A0%EB%8F%84-UX-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EC%95%BC%ED%95%9C%EB%8B%A4-Action-In-line-action-Excel-import-export-Base-Admin-Model-%EA%B3%BC-%EC%B6%94%EA%B0%80-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC)
 
 ### 5. Django middleware 만들기
 - `HttpRequest -> HttpResponse` 이 처리 구간에서 time library의 `process_time_ns` 함수를 활용해서 응답 헤더에 추가해 보자.

@@ -20,6 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    # transaction api
+    path("api/transactions/", include("transactions.urls")),
 ]
 
 

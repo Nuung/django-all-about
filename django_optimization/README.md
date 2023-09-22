@@ -29,3 +29,8 @@ SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
 
 - 해당 app은 logging등 어떤 추가 커스텀 세팅 없고, 비즈니스로직 및 최적화에만 집중하고 있습니다.
 - app은 `user` 와 `transactions` app만 사용하고 있습니다.
+
+
+#### 5. blog post follow up
+
+-

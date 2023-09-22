@@ -1,6 +1,7 @@
+from django.core.cache import cache
 from django.contrib import admin
 from django.contrib.humanize.templatetags.humanize import intcomma
-from django.db.models import Sum
+from django.db.models import Sum, Max
 
 from rangefilter.filter import DateRangeFilter
 
@@ -66,27 +67,20 @@ class TransactionAdmin(admin.ModelAdmin):
         PayPlatformFilter,
     ]
     list_select_related = ["user"]
-    list_per_page = 100  # 한 페이지당 100 개의 항목을 표시
+    list_per_page = 1000  # 한 페이지당 100 개의 항목을 표시
+    search_fields = ["user__name", "user__profile__nick_name"]
 
     # custom admin template
     change_list_template = "admin/transaction_custom_admin.html"
 
     def changelist_view(self, request, extra_context=None):
-        result = (
-            Transaction.objects.all()
-            .values("pay_type")
-            .annotate(
-                sum_amount_total=Sum("amount_total"),
-                sum_amount_fee=Sum("amount_fee"),
-                sum_amount=Sum("amount"),
-            )
-        )
-
+        result = self.__get_cached_transaction_summary()
         context = list()
         for item in result:
             context.append(
                 dict(
                     pay_type=item["pay_type"],
+                    pay_platform=item["pay_platform"],
                     sum_amount_total=intcomma(item["sum_amount_total"]),
                     sum_amount_fee=intcomma(item["sum_amount_fee"]),
                     sum_amount=intcomma(item["sum_amount"]),
@@ -96,6 +90,30 @@ class TransactionAdmin(admin.ModelAdmin):
         # 추가 컨텍스트를 포함하여 render
         res = super().changelist_view(request, extra_context=dict(result=context))
         return res
+
+    def __get_last_transaction_pk(self):
+        last_pk = cache.get("last_transaction_pk")
+        if last_pk is None:
+            last_pk = Transaction.objects.last().pk
+            cache.set("last_transaction_pk", last_pk, timeout=None)
+        return last_pk
+
+    def __get_cached_transaction_summary(self):
+        cached_summary = cache.get("transaction_summary_cache")
+        last_pk_in_cache = cache.get("last_transaction_pk")
+
+        last_pk_from_db = self.__get_last_transaction_pk()
+        if cached_summary is None or last_pk_in_cache != last_pk_from_db:
+            query = Transaction.objects.values("pay_type", "pay_platform").annotate(
+                sum_amount_total=Sum("amount_total"),
+                sum_amount_fee=Sum("amount_fee"),
+                sum_amount=Sum("amount"),
+            )
+            cached_summary = list(query)
+            cache.set("transaction_summary_cache", cached_summary, timeout=None)
+            cache.set("last_transaction_pk", last_pk_from_db, timeout=None)
+
+        return cached_summary
 
 
 admin.site.register(Transaction, TransactionAdmin)

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # 3td party
+    "rest_framework",  # djangorestframework
     "phonenumber_field",
     "debug_toolbar",  # debug (side tool bar), django-debug-toolbar
     "rangefilter",  # https://pypi.org/project/django-admin-rangefilter/
@@ -136,4 +137,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Debug toolbar config
 DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
+    }
 }

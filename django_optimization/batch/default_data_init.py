@@ -144,6 +144,7 @@ created_user_cnt = 0
 for _ in range(20):
     new_profile, is_created = Profile.objects.get_or_create(
         nick_name=fake.user_name()[:20],
+        profile_img=f"https://picsum.photos/200?random={random.randint(1, 500)}",
         profile_desc=fake.sentence(nb_words=14),
     )
     created_profile_cnt += 1
