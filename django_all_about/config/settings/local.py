@@ -193,6 +193,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 # ==================================================================== #
 #                       DRF, JWT config                                #
 # ==================================================================== #
+# https://www.django-rest-framework.org/
 
 AUTH_USER_MODEL = "user.User"
 
